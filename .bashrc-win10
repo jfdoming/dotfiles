@@ -1,0 +1,9 @@
+# X-Forwarding exports for Windows and vcxsrv
+export DISPLAY="localhost:0.0"
+
+# Windows-specific aliases
+alias py="winpty python"
+alias j=". j.sh"
+alias jc=". jc.sh"
+alias jo=". jo.sh"
+alias jco=". jco.sh"
