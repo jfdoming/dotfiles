@@ -1,6 +1,8 @@
 # dotfiles
 These are my dotfiles (e.g. .bashrc, .vimrc).
 
+This repository uses ideas presented at the following link: https://www.atlassian.com/git/tutorials/dotfiles. Note however that the scripts included here are all created from scratch.
+
 ## Installation
 Clone the repository: `git clone --bare https://github.com/jfdoming/dotfiles $HOME/.dotfiles`
 
