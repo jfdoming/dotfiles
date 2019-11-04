@@ -6,7 +6,7 @@ if ! command -v git > /dev/null; then
 fi
 
 dotfiles() {
-    git --git-dir=$HOME/.dotfiles --work-tree=$HOME $@
+    git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
 }
 
 if ! dotfiles checkout; then
