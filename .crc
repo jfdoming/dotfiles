@@ -1,14 +1,101 @@
 # Environment variables
 PS1="\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n"$'\u03bb '
 
+# Dotfiles stuff
+dotfiles() {
+    git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
+}
+
+.f() {
+    case "$1" in
+        update)
+            dotfiles pull
+            ;;
+        upload)
+            if [ -z "$2" ]; then
+                echo "Please enter an upload message!"
+                return
+            fi
+
+            dotfiles add -u > /dev/null
+            if [ -z "$(dotfiles diff --name-only --cached)" ]; then
+                # No files were staged!
+                echo "There are no changes to upload."
+                return
+            fi
+
+            dotfiles commit -m "$2" > /dev/null
+            if [ "$?" != "0" ] || [ -z "$(dotfiles diff --name-only HEAD~1 HEAD)" ]; then
+                # No files were committed, for some reason.
+                echo "Upload failed!"
+                return
+            fi
+
+            dotfiles push
+            ;;
+        register)
+            if [ -z "$2" ]; then
+                echo "Please specify a new dotfile to register!"
+                return
+            fi
+
+            unset __changes_stashed
+            if [ -n "$(dotfiles diff --name-only HEAD)" ]; then
+                dotfiles stash > /dev/null
+                __changes_stashed=1
+            fi
+
+            dotfiles add "$2" > /dev/null 2>&1
+            if [ -z "$(dotfiles diff --name-only --cached)" ]; then
+                # No files were staged!
+                echo "There are no new changes. Perhaps you mistyped the filename?"
+                if [ "$__changes_stashed" = "1" ]; then
+                    dotfiles stash pop > /dev/null 2>&1
+                fi
+                unset __changes_stashed
+                return
+            fi
+
+            dotfiles commit -m "Add new dotfile: $2" > /dev/null 2>&1
+            if [ "$?" != "0" ] || [ -z "$(dotfiles diff --name-only HEAD~1 HEAD)" ]; then
+                # No files were committed, for some reason.
+                echo "Upload failed!"
+                if [ "$__changes_stashed" = "1" ]; then
+                    dotfiles stash pop > /dev/null 2>&1
+                fi
+                unset __changes_stashed
+                return
+            fi
+
+            if [ "$__changes_stashed" = "1" ]; then
+                dotfiles stash pop > /dev/null 2>&1
+            fi
+            unset __changes_stashed
+
+            # dotfiles push
+            ;;
+        x)
+            shift
+            dotfiles $@
+            ;;
+        "")
+            echo "Please specify one of the following options: x, update, upload, register"
+            ;;
+        *)
+            echo "Unknown option: $1"
+            return
+            ;;
+    esac
+}
+
 # Basic aliases
 alias e=exit
 alias c=clear
 alias l=ls
 alias cd..="cd .."
-alias be="vim ~/.bashrc"
-alias br="source ~/.bashrc"
-alias bc="be && br"
+alias se="vim ~/.crc"
+alias sr="source ~/.crc"
+alias sc="se && sr"
 
 # Course aliases
 alias sshl="ssh jfdoming@linux.student.cs.uwaterloo.ca $@"
