@@ -106,7 +106,7 @@ alias vs="v status"
 alias vl="v log"
 
 va() {
-    if [ -z "$@" ]; then
+    if [ $# -eq 0 ]; then
         v add .
     else
         v add $@

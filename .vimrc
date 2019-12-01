@@ -42,6 +42,7 @@ set expandtab
 " Enable 80 char line
 set cc=80
 
+let g:syntastic_cpp_config_file='.syntastic_cpp_config'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
