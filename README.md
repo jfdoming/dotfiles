@@ -6,7 +6,7 @@ This repository uses ideas presented at the following link: https://www.atlassia
 ## Installation
 Clone the repository: `git clone --bare https://github.com/jfdoming/dotfiles $HOME/.dotfiles`
 
-Run the setup script: `$HOME/.dotfiles/setup.f.sh`
+Run the setup script: `$HOME/tools/setup.f.sh`
 
 That's it!
 
