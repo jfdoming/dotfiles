@@ -2,4 +2,4 @@
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 # Try to jump to a suitable starting directory.
-j > /dev/null
+type j > /dev/null && j > /dev/null
