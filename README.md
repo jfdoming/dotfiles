@@ -46,4 +46,6 @@ Beyond the standard dotfiles, there are a few custom ones you can edit/define.
 
 `.crc-win10`: This file contains code specific to a Windows 10 environment. For example, there are aliases for the `autojump` utility.
 
+`.crc-macos`: This file contains code specific to a macOS environment. For example, it loads the `autojump` utility.
+
 The `.f` command provided in the common script file `.crc` can also be used to manage all the dotfiles. Run `.f` by itself to see a list of all available commands.

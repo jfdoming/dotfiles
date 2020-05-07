@@ -153,7 +153,10 @@ alias vc="v checkout"
 alias vt="v stash"
 alias vta="vt apply"
 
-# Windows 10-specific scripts
+# Platform-specific scripts
 if [ -f "$HOME/.crc-win10" ]; then
     source "$HOME/.crc-win10"
+fi
+if [ -f "$HOME/.crc-macos" ]; then
+    source "$HOME/.crc-macos"
 fi
