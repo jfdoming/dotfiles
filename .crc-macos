@@ -3,3 +3,9 @@
 
 # Try to jump to a suitable starting directory.
 type j > /dev/null && j > /dev/null
+
+# Enable default colourized output for ls.
+alias $(alias l) -G
+unset LSCOLORS
+export CLICOLOR=1
+export CLICOLOR_FORCE=1
