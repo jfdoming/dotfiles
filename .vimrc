@@ -5,7 +5,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'chemzqm/vim-jsx-improve'
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-airline/vim-airline'
