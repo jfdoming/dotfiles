@@ -23,9 +23,11 @@ set background=dark
 
 " Settings
 set number
+set relativenumber
 set incsearch
 set hlsearch
 set backspace=indent,eol,start
+set mouse=a
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -56,6 +58,14 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" Netrw settings
+let g:netrw_browsex_viewer= "open"
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 20
+
 " Keybinds
 noremap <silent> <C-S> :update<CR>
 vnoremap <silent> <C-S> <ESC>:update<CR>
@@ -77,3 +87,26 @@ inoremap <c-z> <c-o>:u<CR>
 
 " Thanks to https://github.com/curtischong for the fix!
 xnoremap <expr> p 'pgv"'.v:register.'y'
+
+" Custom actions
+
+" Ctrl-P toggles the netrw drawer
+let g:NetrwIsOpen=0
+
+function! ToggleNetrw()
+    if g:NetrwIsOpen
+        let i = bufnr("$")
+        while (i >= 1)
+            if (getbufvar(i, "&filetype") == "netrw")
+                silent exe "bwipeout " . i
+            endif
+            let i-=1
+        endwhile
+        let g:NetrwIsOpen=0
+    else
+        let g:NetrwIsOpen=1
+        silent Lexplore
+    endif
+endfunction
+
+noremap <silent> <C-P> :call ToggleNetrw()<CR>
