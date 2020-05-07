@@ -152,6 +152,9 @@ alias vu="v push"
 alias vc="v checkout"
 alias vt="v stash"
 alias vta="vt apply"
+alias vfp="v fetch --all --prune"
+
+alias py="python3" # Overwritten on Windows platforms
 
 # Platform-specific scripts
 if [ -f "$HOME/.crc-win10" ]; then
