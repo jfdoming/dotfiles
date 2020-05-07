@@ -1,8 +1,5 @@
 set nocompatible
-filetype off
-syntax on
-set backspace=indent,eol,start
-set background=dark
+filetype off " required for Vundle to work
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -16,7 +13,9 @@ Plugin 'vim-syntastic/syntastic'
 
 call vundle#end()
 filetype plugin indent on
+syntax enable
 colorscheme gruvbox
+set background=dark
 
 "let g:gruvbox_improved_warnings = '1'
 "let g:gruvbox_underline = '1'
@@ -26,6 +25,7 @@ colorscheme gruvbox
 set number
 set incsearch
 set hlsearch
+set backspace=indent,eol,start
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -38,8 +38,16 @@ set tabstop=4
 set shiftwidth=4
 " On pressing tab, insert 4 spaces
 set expandtab
+" Backspace on a tab removes 4 spaces
+set softtabstop=4
 
-" Enable 80 char line
+" highlight the current line
+set cursorline
+
+" use a nicer pane border
+set fillchars+=vert:│
+
+" enable 80 char line
 set cc=80
 
 let g:syntastic_cpp_config_file='.syntastic_cpp_config'
@@ -66,3 +74,6 @@ nnoremap gk k
 nnoremap g<Up> k
 
 inoremap <c-z> <c-o>:u<CR>
+
+" Thanks to https://github.com/curtischong for the fix!
+xnoremap <expr> p 'pgv"'.v:register.'y'
