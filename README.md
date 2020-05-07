@@ -33,7 +33,11 @@ That's it!
 
 ### System-specific setup
 
-Depending on which system you are using, you may want to enable some system-specific features and disable those for other systems. To do this, delete the files that are not relevant to your specific system. For example, if you are running on `macOS`, you should delete `.crc-win10`.
+Depending on which system you are using, you may want to enable some system-specific features and disable those for other systems. To do this, you can use the `.f` tool which should have been installed as part of the basic setup. The relevant options are:
+
+`.f suppress <dotfile>`: Removes the named dotfile locally.
+
+`.f restore <dotfile>`: Restores the named dotfile from the upstream.
 
 ## Usage
 Beyond the standard dotfiles, there are a few custom ones you can edit/define.

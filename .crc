@@ -73,12 +73,41 @@ dotfiles() {
 
             # dotfiles push
             ;;
+        suppress)
+            if [ -z "$2" ]; then
+                echo "Please specify a file to suppress."
+                return
+            fi
+
+            if [ ! -f "$HOME/$2" ]; then
+                echo "Requested file does not exist. Typo?"
+                return
+            fi
+
+            rm $HOME/$2
+            dotfiles update-index --skip-worktree $2
+            ;;
+        restore)
+            if [ -z "$2" ]; then
+                echo "Please specify a file to restore."
+                return
+            fi
+
+            if [ -f "$HOME/$2" ]; then
+                echo "Request file already exists. Typo?"
+                return
+            fi
+
+            dotfiles update-index --no-skip-worktree $2
+            dotfiles checkout -- $2
+            ;;
         x)
             shift
             dotfiles $@
             ;;
         "")
-            echo "Please specify one of the following options: x, update, upload, register"
+            echo "Please specify one of the following options: x, update, upload, register, suppress, restore"
+            return
             ;;
         *)
             echo "Unknown option: $1"
