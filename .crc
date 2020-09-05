@@ -106,7 +106,7 @@ dotfiles() {
             dotfiles $@
             ;;
         "")
-            echo "Please specify one of the following options: x, update, upload, register, suppress, restore"
+            echo "Please specify one of the following options: x, update, upload, register, suppress, restore, usessh"
             return
             ;;
     usessh)
