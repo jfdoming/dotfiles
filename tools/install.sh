@@ -48,6 +48,14 @@ fi
 echo
 echo "Checkout succeeded."
 
+echo
+if [ -f "$HOME/git-prompt-local.sh" ]; then
+    echo "Custom prompt already installed, skipping..."
+else
+    curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh > $HOME/git-prompt-local.sh 2> /dev/null
+    echo "Custom prompt installed."
+fi
+
 # Install Vundle (for vim).
 if ! git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim 2> /dev/null; then
     echo "Cloning Vundle failed, skipping..."
