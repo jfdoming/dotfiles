@@ -1,17 +1,5 @@
-set nocompatible
-filetype off " required for Vundle to work
+source ~/.vimplugins
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'chemzqm/vim-jsx-improve'
-Plugin 'morhetz/gruvbox'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-syntastic/syntastic'
-
-call vundle#end()
-filetype plugin indent on
 syntax enable
 colorscheme gruvbox
 set background=dark
