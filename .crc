@@ -109,6 +109,16 @@ dotfiles() {
             echo "Please specify one of the following options: x, update, upload, register, suppress, restore"
             return
             ;;
+    usessh)
+            __old_name=$(dotfiles remote get-url origin | sed -rn "s/https:\/\/github.com\/(.*)/\1/p")
+            if [ -n "$__old_name" ]; then
+                dotfiles remote set-url origin "git@github.com:$__old_name"
+            else
+                echo "Are you already using SSH?"
+            fi
+            unset __old_name
+            return
+            ;;
         *)
             echo "Unknown option: $1"
             return
