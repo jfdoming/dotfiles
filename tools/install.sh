@@ -34,11 +34,10 @@ rename_file tools/install.sh
 
 if [ ${#files[@]} -ne 0 ]; then
     echo
-    echo "Renamed the following files:"
+    echo "Renamed the following files (please migrate these files manually):"
     for file in "${files[@]}"; do
         echo $file
     done
-    echo "Please migrate these files manually."
 fi
 
 if ! git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout; then
