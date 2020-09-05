@@ -30,7 +30,7 @@ dotfiles() {
                 return
             fi
 
-            dotfiles push
+            dotfiles push origin master
             ;;
         register)
             if [ -z "$2" ]; then
