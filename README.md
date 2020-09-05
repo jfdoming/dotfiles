@@ -5,15 +5,19 @@ This repository uses ideas presented at the following link: https://www.atlassia
 
 ## Installation
 
-Follow the instructions below to set up these dotfiles locally. The "Basic setup" instructions are mandatory, and the other sections are optional depending on which features you will use.
+Follow the instructions below to set up these dotfiles locally. The "Basic setup" instructions are mandatory (or should be replaced with the "Manual setup" instructions), and the other sections are optional depending on which features you will use.
 
 ### Basic setup
 
+Run the following command in your favourite shell: `curl https://raw.githubusercontent.com/jfdoming/dotfiles/master/tools/install.sh | bash`
+
+This will automatically download and install all dotfiles and plugins. You can view the install script before you run it [here](https://github.com/jfdoming/dotfiles/tree/master/tools/install.sh).
+
+### Manual setup
+
 Clone the repository: `git clone --bare https://github.com/jfdoming/dotfiles $HOME/.dotfiles`
 
-Checkout the repository: `git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout`
-
-Mark the setup script as executable: `chmod +x $HOME/tools/setup.f.sh`
+Checkout the repository and manually resolve merge conflicts: `git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout`
 
 Run the setup script: `$HOME/tools/setup.f.sh`
 
