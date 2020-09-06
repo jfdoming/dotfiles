@@ -166,12 +166,6 @@ alias vfp="v fetch --all --prune"
 
 alias py="python3" # Overwritten on Windows platforms
 
-__350_awrite() {
-    echo $1 > ~/cs350-work/assignment.txt
-}
-
-alias 350="alias shell='pushd ~/cs350-work > /dev/null; ./start-interactive-cs350-shell.sh; popd > /dev/null'; alias a='__350_awrite'; alias build-remote='sshl \"~/cs350/build-over-ssh.sh\"'; cd ~/cs350-work/os161-1.99/kern"
-
 # Platform-specific scripts
 if [ -f "$HOME/.crc-win10" ]; then
     source "$HOME/.crc-win10"
