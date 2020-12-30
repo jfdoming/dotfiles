@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+if [ -z "$1" ]; then
+    echo "Please specify one or more folders to search"
+    return
+fi
+
+if [ -z "$2" ]; then
+    echo "Please specify a string to search for"
+    return
+fi
+
+options "$(grep -rn "$2" $=1)"

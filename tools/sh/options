@@ -1,0 +1,78 @@
+#!/bin/zsh
+
+while getopts ":e:s" OPTION; do
+    case $OPTION in
+        e)
+            editorargs=${OPTARG}
+            ;;
+        s)
+            simple=1
+            ;;
+        *)
+            echo "Unrecognized option -$OPTARG."
+            return
+    esac
+done
+shift $(($OPTIND - 1))
+
+if [ -z "$1" ]; then
+    echo "No results to view."
+    return
+fi
+
+for result in "${(f)1}"; do
+    formatted=$(echo $result | tr ':' ' ')
+    entries=()
+    for entry in ${=formatted}; do
+        entries+=("$entry")
+    done
+    echo $result
+    while true; do
+        read "op?Action? "
+        case $op in
+            x)
+                unset result
+                return
+                ;;
+            c)
+                ;&
+            "")
+                break
+                ;;
+            s)
+                eval "result='$entries[1] $entries[2]'"
+                return
+                ;;
+            *)
+                if [ -z $simple ]; then
+                    case $op in
+                        e)
+                            if [ -z "$entries[2]" ]; then
+                                vi $entries[1] $=editorargs
+                            else
+                                vi $entries[1] -c 'normal zt' +$entries[2]
+                            fi
+                            return
+                            ;;
+                        p)
+                            if [ -z "$entries[2]" ]; then
+                                echo -n "vs" $(realpath $entries[1]) | pbcopy
+                            else
+                                echo -n "vs" $(realpath $entries[1]) '| :'$entries[2] | pbcopy
+                            fi
+                            echo "Copied the command to open this file to your clipboard."
+                            break
+                            ;;
+                        *)
+                            echo "Come again?"
+                            ;;
+                    esac
+                else
+                    echo "Come again?"
+                fi
+                ;;
+        esac
+    done
+done
+
+unset result

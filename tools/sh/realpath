@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+if [ -z "$1" ]; then
+    echo "Please specify a relative path!"
+    return
+fi
+
+# Thanks to https://stackoverflow.com/a/21188136.
+echo "$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
