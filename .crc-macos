@@ -9,3 +9,12 @@ alias $(alias l) -G
 unset LSCOLORS
 export CLICOLOR=1
 export CLICOLOR_FORCE=1
+
+# Fix for the history command.
+history() {
+    if [ -z "$1" ]; then
+        builtin history 1
+    else
+        builtin history $1
+    fi
+}
