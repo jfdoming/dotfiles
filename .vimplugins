@@ -5,10 +5,21 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'chemzqm/vim-jsx-improve'
+
+" This plugin is a duplicate of the below plugin!
+""Plugin 'chemzqm/vim-jsx-improve'
+
+""Plugin 'leafgarland/typescript-vim'
+""Plugin 'peitalin/vim-jsx-typescript'
+
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-airline/vim-airline'
+Plugin 'airblade/vim-gitgutter'
 Plugin 'vim-syntastic/syntastic'
+
+" This plugin is very nice, but it has a huge bug (at least on Windows 10)!
+" See https://github.com/prettier/vim-prettier/issues/214
+""Plugin 'prettier/vim-prettier'
 
 call vundle#end()
 filetype plugin indent on
