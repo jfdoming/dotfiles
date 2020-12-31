@@ -1,5 +1,10 @@
 # Environment variables
 
+export EDITOR=vim
+
+# http://manpages.ubuntu.com/manpages/xenial/man1/gpg-agent.1.html
+export GPG_TTY=$(tty)
+
 # Dotfiles stuff
 dotfiles() {
     git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
@@ -125,6 +130,7 @@ dotfiles() {
             ;;
     esac
 }
+alias ".fx"=".f x"
 
 # Basic aliases
 alias e=exit
@@ -139,32 +145,52 @@ alias sc="se && sr"
 alias sshl="ssh jfdoming@linux.student.cs.uwaterloo.ca $@"
 
 # VCS aliases
-alias v="git"
-alias vs="v status"
-alias vl="v log"
+VCS="git"
+alias v="$VCS"
+alias vs="$VCS status"
+alias vl="$VCS log"
 
 va() {
     if [ $# -eq 0 ]; then
-        v add .
+        $VCS add -A
     else
-        v add $@
+        $VCS add $@
     fi
 }
 
-alias vm="v commit"
-alias vr="v reset"
-alias vd="v diff"
-alias vR="v rebase -i"
-alias vb="v branch"
-alias vP="v pull"
-alias vp="vP --rebase"
-alias vu="v push"
-alias vc="v checkout"
-alias vt="v stash"
-alias vta="vt apply"
-alias vfp="v fetch --all --prune"
+alias vm="$VCS commit"
+alias vr="$VCS reset"
+alias vd="$VCS diff"
+
+vR() {
+    if [ $# -eq 0 ]; then
+        $VCS rebase -i
+    else
+        $VCS rebase $@
+    fi
+}
+
+alias vb="$VCS branch"
+alias vP="$VCS pull"
+alias vp="$VCS pull --rebase"
+alias vu="$VCS push"
+alias vc="$VCS checkout"
+alias vt="$VCS stash"
+alias vta="$VCS stash apply"
+alias vfp="$VCS fetch --all --prune"
+alias vg="$VCS grep"
+
+vB() {
+    # Many thanks to https://stackoverflow.com/a/5188364
+    git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+}
+
+# For git who? (blame)
+alias vw=$HOME/tools/ruby/git_blame.rb $@
 
 alias py="python3" # Overwritten on Windows platforms
+
+PATH="$PATH:$HOME/tools/sh"
 
 # Platform-specific scripts
 if [ -f "$HOME/.crc-win10" ]; then
