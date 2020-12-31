@@ -9,9 +9,15 @@ Follow the instructions below to set up these dotfiles locally. The "Basic setup
 
 ### Basic setup
 
-Run the following command in your favourite shell: `curl https://raw.githubusercontent.com/jfdoming/dotfiles/master/tools/install.sh | bash`
+First, determine if you have `curl` or `wget` installed by typing each of those commands into your favourite shell.
+
+Next, run the appropriate command from below depending on which of `curl` or `wget` you have installed:
+- `curl https://raw.githubusercontent.com/jfdoming/dotfiles/master/tools/install.sh | sh`
+- `wget -O - https://raw.githubusercontent.com/jfdoming/dotfiles/master/tools/install.sh | sh`
 
 This will automatically download and install all dotfiles and plugins. You can view the install script before you run it [here](https://github.com/jfdoming/dotfiles/tree/master/tools/install.sh).
+
+*Note: If you do not have either of `curl` or `wget` installed, you will need to manually download the installation script from [here](https://github.com/jfdoming/dotfiles/tree/master/tools/install.sh) and execute it, or go through the [manual setup process](#manual-setup) below.*
 
 ### Manual setup
 
@@ -31,7 +37,9 @@ Clone `Vundle`: `git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bu
 
 Open `vim` and install all plugins: `:PluginInstall`
 
-Restart `vim` and make sure all error messages have disappeare and make sure all error messages have disappeared.
+Clean any existing plugins: `:PluginClean`
+
+Restart `vim` and make sure all error messages have disappeared.
 
 That's it!
 
