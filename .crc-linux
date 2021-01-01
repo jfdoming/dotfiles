@@ -1,4 +1,2 @@
-#!/bin/bash
-
 alias pbcopy="xclip -selection c"
 alias pbpaste="xclip -out -selection c"
