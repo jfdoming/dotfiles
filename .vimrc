@@ -1,12 +1,18 @@
-source ~/.vimplugins
+" Thanks to https://devel.tech/snippets/n/vIIMz8vZ/load-vim-source-files-only-if-they-exist/
+function! SourceIfExists(file)
+    if filereadable(expand(a:file))
+        exe 'source' a:file
+    endif
+endfunction
+
+call SourceIfExists("~/.vimplugins")
 
 syntax enable
-colorscheme gruvbox
+:silent! colorscheme gruvbox
 set background=dark
 
 let g:gruvbox_improved_warnings = '1'
 let g:gruvbox_underline = '1'
-
 
 " Settings
 set number
@@ -15,10 +21,6 @@ set incsearch
 set hlsearch
 set backspace=indent,eol,start
 set mouse=a
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 filetype plugin indent on
 " show existing tab with 4 spaces width
