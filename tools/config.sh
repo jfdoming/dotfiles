@@ -142,7 +142,7 @@ if [ -n "$config_type" ]; then
             fi
             ;;
         editor)
-            config_subtype=$($HOME/tools/sh/choose config a vim 3>&2 2>&1 1>&3)
+            config_subtype=$($HOME/tools/sh/choose "config subtype" a vim 3>&2 2>&1 1>&3)
             echo
 
             if [ -n "$config_subtype" ]; then
