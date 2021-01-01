@@ -1,0 +1,46 @@
+#!/bin/sh
+
+type="$1"
+pref="$2" # a or an
+shift
+shift
+
+echo "The following ${type}s are available:"
+for i in `seq $#`; do
+    printf "(%s)\t%s\n" "$i" "${!i}"
+done
+
+echo -n "Please select $pref $type: "
+read choice
+
+number_regex='^-?[0-9]+$'
+
+while true; do
+    if [[ "$choice" =~ $number_regex ]]; then
+        if [ "$choice" -le 0 ] || [ "$choice" -gt "$#" ]; then
+            echo "Invalid $type."
+            choice=
+        else
+            choice=${!choice}
+        fi
+    elif [ -n "$choice" ]; then
+        found=
+        for c in "$@"; do
+            if [ "$choice" == "$c" ]; then
+                found=1
+                break
+            fi
+        done
+        if [ -z "$found" ]; then
+            choice=
+        fi
+    fi
+
+    if [ -n "$choice" ]; then
+        echo $choice >&2
+        break
+    fi
+
+    echo -n "Come again? "
+    read choice
+done
