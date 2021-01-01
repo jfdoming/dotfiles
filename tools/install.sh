@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 if ! [ -d $HOME/.dotfiles ]; then
     if ! command -v git > /dev/null; then

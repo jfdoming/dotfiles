@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 if ! command -v git > /dev/null; then
     echo "Could not locate the git executable. Are you sure you added it to your path?"
