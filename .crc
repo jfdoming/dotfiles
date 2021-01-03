@@ -114,7 +114,7 @@ dotfiles() {
             echo "Please specify one of the following options: x, update, upload, register, suppress, restore, usessh"
             return
             ;;
-    usessh)
+        usessh)
             __old_name=$(dotfiles remote get-url origin | sed -rn "s/https:\/\/github.com\/(.*)/\1/p")
             if [ -n "$__old_name" ]; then
                 dotfiles remote set-url origin "git@github.com:$__old_name"
@@ -130,7 +130,7 @@ dotfiles() {
             ;;
     esac
 }
-alias ".fx"=".f x"
+alias ".fx"="dotfiles"
 
 # Basic aliases
 alias e=exit
