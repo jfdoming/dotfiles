@@ -40,3 +40,5 @@ fi
 
 # For iterm2 support.
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+: # Don't end on an error!
