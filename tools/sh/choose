@@ -1,32 +1,49 @@
 #!/bin/sh
 
+if [ "$#" -le 2 ]; then
+    if [ "$#" -eq 0 ]; then
+        echo "Please specify the type of the choices."
+    elif [ "$#" -eq 1 ]; then
+        echo "Please specify either \"a\" or \"an\" based on the choice type."
+    else
+        echo "No $1s to choose from."
+        exit
+    fi
+    exit 1
+fi
+
 type="$1"
 pref="$2" # a or an
-shift
-shift
+shift 2
 
-echo "The following ${type}s are available:"
-for i in `seq $#`; do
-    printf "(%s)\t%s\n" "$i" "${!i}"
-done
+list_choices() {
+    echo "The following ${type}s are available:"
+    for i in `seq $#`; do
+        printf "(%s)\t%s\n" "$i" "$1"
+        shift
+    done
+}
+
+list_choices "$@"
 
 echo -n "Please select $pref $type: "
-read choice
+IFS= read choice
 
 number_regex='^-?[0-9]+$'
 
 while true; do
-    if [[ "$choice" =~ $number_regex ]]; then
+    if [ "$choice" -eq "$choice" ] 2> /dev/null; then
         if [ "$choice" -le 0 ] || [ "$choice" -gt "$#" ]; then
-            echo "Invalid $type."
+            echo "Invalid $type. Index must be >= 1 and <= $#."
             choice=
         else
-            choice=${!choice}
+            shift $((choice - 1))
+            choice=$1
         fi
     elif [ -n "$choice" ]; then
         found=
         for c in "$@"; do
-            if [ "$choice" == "$c" ]; then
+            if [ "$choice" = "$c" ]; then
                 found=1
                 break
             fi
@@ -42,5 +59,5 @@ while true; do
     fi
 
     echo -n "Come again? "
-    read choice
+    IFS= read choice
 done
