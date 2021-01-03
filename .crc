@@ -111,7 +111,7 @@ dotfiles() {
             dotfiles $@
             ;;
         "")
-            echo "Please specify one of the following options: x, update, upload, register, suppress, restore, usessh"
+            echo "Please specify one of the following options: x, update, upload, register, suppress, restore, usessh, config"
             return
             ;;
         usessh)
@@ -122,6 +122,10 @@ dotfiles() {
                 echo "Are you already using SSH?"
             fi
             unset __old_name
+            return
+            ;;
+        config)
+            $HOME/tools/config.sh
             return
             ;;
         *)
