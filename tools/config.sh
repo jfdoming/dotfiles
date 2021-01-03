@@ -30,20 +30,8 @@ restore() {
     dotfiles checkout -- $HOME/$1
 }
 
-confirm() {
-    echo -n "Please confirm that you would like to $1. [yYnN] "
-    read -sn1 answer
-    echo
-    while true; do
-        if [ "$answer" == "y" ] || [ "$answer" == "Y" ]; then
-            return 0
-        elif [ "$answer" == "n" ] || [ "$answer" == "N" ]; then
-            return 1
-        fi
-        echo -n "Come again? "
-        read -sn1 answer
-        echo
-    done
+do_confirm() {
+    $HOME/tools/sh/confirm Please confirm that you would like to $@.
 }
 
 config_type=$($HOME/tools/sh/choose "config type" a shell os editor 3>&2 2>&1 1>&3)
@@ -58,7 +46,7 @@ if [ -n "$config_type" ]; then
             if [ -n "$config" ]; then
                 case "$config" in
                     zsh)
-                        if confirm "configure zsh and disable all other shell configurations"; then
+                        if do_confirm "configure zsh and disable all other shell configurations"; then
                             suppress .bashrc
                             suppress .bash_profile
 
@@ -68,7 +56,7 @@ if [ -n "$config_type" ]; then
                         fi
                         ;;
                     bash)
-                        if confirm "configure bash and disable all other shell configurations"; then
+                        if do_confirm "configure bash and disable all other shell configurations"; then
                             suppress .zshrc
 
                             restore .bashrc
@@ -78,7 +66,7 @@ if [ -n "$config_type" ]; then
                         fi
                         ;;
                     "all shells")
-                        if confirm "enable all shell configurations"; then
+                        if do_confirm "enable all shell configurations"; then
                             restore .zshrc
                             restore .bashrc
                             restore .bash_profile
@@ -98,7 +86,7 @@ if [ -n "$config_type" ]; then
             if [ -n "$config" ]; then
                 case "$config" in
                     "Windows 10")
-                        if confirm "configure for Windows 10 and disable all other OS configurations"; then
+                        if do_confirm "configure for Windows 10 and disable all other OS configurations"; then
                             suppress .crc-macos
                             suppress .crc-linux
 
@@ -108,7 +96,7 @@ if [ -n "$config_type" ]; then
                         fi
                         ;;
                     "Mac OS X")
-                        if confirm "configure for Mac OS X and disable all other shell configurations"; then
+                        if do_confirm "configure for Mac OS X and disable all other shell configurations"; then
                             suppress .crc-win10
                             suppress .crc-linux
 
@@ -118,7 +106,7 @@ if [ -n "$config_type" ]; then
                         fi
                         ;;
                     "Linux")
-                        if confirm "configure for Linux and disable all other shell configurations"; then
+                        if do_confirm "configure for Linux and disable all other shell configurations"; then
                             suppress .crc-win10
                             suppress .crc-macos
 
@@ -128,7 +116,7 @@ if [ -n "$config_type" ]; then
                         fi
                         ;;
                     "all OSes")
-                        if confirm "enable all OS configurations"; then
+                        if do_confirm "enable all OS configurations"; then
                             restore .crc-win10
                             restore .crc-macos
                             restore .crc-linux
@@ -153,22 +141,26 @@ if [ -n "$config_type" ]; then
                             break
                         fi
 
-                        config=$($HOME/tools/sh/choose config a enable disable 3>&2 2>&1 1>&3)
+                        plugin_config="enable plugins"
+                        if [ -f $HOME/.vimplugins ]; then
+                            plugin_config="disable plugins"
+                        fi
+                        config=$($HOME/tools/sh/choose config a "$plugin_config" 3>&2 2>&1 1>&3)
                         echo
 
                         if [ -n "$config" ]; then
                             case "$config" in
-                                enable)
-                                    if confirm "enable Vim plugins"; then
+                                "enable plugins")
+                                    if do_confirm "enable Vim plugins"; then
                                         restore .vimplugins
                                         vim -u $HOME/.vimplugins -c "PluginInstall" -c "PluginClean" -c "qa!" < /dev/tty
                                         echo "Vim plugins have been enabled."
                                     fi
                                     ;;
-                                disable)
-                                    if confirm "disable Vim plugins"; then
+                                "disable plugins")
+                                    if do_confirm "disable Vim plugins"; then
+                                        vim -u $HOME/.vimplugins -c "PluginInstall" -c "PluginClean" -c "qa!" < /dev/tty
                                         suppress .vimplugins
-                                        vim -u DEFAULTS -c "PluginInstall" -c "PluginClean" -c "qa!" < /dev/tty
                                         echo "Vim plugins have been disabled."
                                     fi
                                     ;;
