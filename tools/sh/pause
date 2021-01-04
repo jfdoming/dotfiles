@@ -1,5 +1,37 @@
-#!/bin/zsh
+#!/bin/sh
 
-echo -n "$@"
-read -sk
-echo
+# Many thanks to https://unix.stackexchange.com/a/464963 for the
+# POSIX-compatible single-character read implementation!
+cleanup() {
+    if [ -n "$saved_tty_settings" ]; then
+        stty "$saved_tty_settings"
+    fi
+    echo
+    exit $1
+}
+
+trap cleanup INT TERM
+if [ -t 0 ]; then
+    saved_tty_settings=$(stty -g)
+    stty -echo -icanon min 1 time 0
+fi
+read1char() {
+    eval "$1="
+    while
+      c=$(dd bs=1 count=1 2> /dev/null; echo .)
+      c=${c%.}
+      [ -n "$c" ] &&
+      eval "$1=\${$1}"'$c
+          [ "$(($(printf %s "${'"$1"'}" | wc -m)))" -eq 0 ]'; do
+          continue
+    done
+}
+
+
+if [ "$#" -ge 1 ]; then
+    echo -n "$@"
+else
+    echo -n "Press any key to continue..."
+fi
+read1char answer
+cleanup 0
