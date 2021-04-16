@@ -132,11 +132,11 @@ nnoremap <silent> <C-\> <ESC>^i//<SPACE><ESC>j
 ""let g:prettier#config#html_whitespace_sensitivity = 'css'
 
 " New method; hacky, but works!
+autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType typescript.tsx setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd BufWritePost * if count(["javascript"],&filetype) | call Prettier() | endif
-autocmd BufWritePost * if count(["javascript.jsx"],&filetype) | call Prettier() | endif
 autocmd BufWritePost * if count(["typescript"],&filetype) | call Prettier() | endif
 autocmd BufWritePost * if count(["typescript.tsx"],&filetype) | call Prettier() | endif
 

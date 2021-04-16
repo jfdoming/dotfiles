@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Expected path to the oh-my-zsh installation.
 ZSH_PATH="$HOME/.oh-my-zsh"
 
@@ -6,7 +13,7 @@ if [ -e "$ZSH_PATH/oh-my-zsh.sh" ]; then
     export ZSH="$ZSH_PATH"
 
     # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-    ZSH_THEME="agnoster"
+    ZSH_THEME="powerlevel10k/powerlevel10k"
 
     # Choose plugins for oh-my-zsh to load.
     plugins=(git gitfast zsh-autosuggestions zsh-syntax-highlighting)
@@ -40,5 +47,8 @@ fi
 
 # For iterm2 support.
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 : # Don't end on an error!

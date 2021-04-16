@@ -1,0 +1,12 @@
+# Include any local configuration if it exists.
+[include]
+    path = ./.gitconfig-local
+
+[pager]
+    diff = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
+
+[alias]
+    check-whitespace = "!cd -- ${GIT_PREFIX:-.}; git diff-tree --check $(git hash-object -t tree /dev/null) HEAD"
+
+[commit]
+    gpgsign = true

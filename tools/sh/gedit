@@ -10,4 +10,4 @@ if [ -z "$2" ]; then
     return
 fi
 
-options "$(grep -rn "$2" $=1)"
+options "$(git grep -n "$2" $=1)"

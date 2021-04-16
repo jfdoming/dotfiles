@@ -5,20 +5,23 @@ if [ -z "$1" ]; then
     return
 fi
 
-local already_zipped=
-if [ -f "$1" ]; then
-    already_zipped=$(zipinfo -1 "$1" | sed 's/^/.\//')
+if ! [[ "$1" =~ ^\\./.* ]]; then
+    1=./"$1"
 fi
-already_zipped=(${=already_zipped})
+
+local files_to_ignore=("$1")
+if [ -f "$1" ]; then
+    files_to_ignore+=("${(@f)$(zipinfo -1 "$1" | sed 's/^/.\//')}")
+fi
 local folders=(.)
 local files=()
 while [ -n "$folders" ]; do
     loop_folders=$folders
     folders=()
     for folder in ${=loop_folders}; do
-        local local_files=$(find $folder -type f -maxdepth 1)
-        for f in ${=local_files}; do
-            if (($already_zipped[(Ie)$f])); then
+        local local_files=("${(@f)$(find $folder -maxdepth 1 -type f)}")
+        for f in $local_files; do
+            if (($files_to_ignore[(Ie)$f])); then
                 continue
             fi
 
@@ -28,14 +31,14 @@ while [ -n "$folders" ]; do
             while [ -z "$decision_made" ]; do
                 read -sk 1
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    files+=($f)
+                    files+=("$f")
                     decision_made=1
                     echo File will be included.
                 elif [[ $REPLY =~ ^[Nn[:space:]]$ ]]; then
                     decision_made=1
                     echo File will be excluded.
                 elif [[ $REPLY =~ ^[Vv]$ ]]; then
-                    vi $f
+                    vi "$f"
                 elif [[ $REPLY =~ ^[QqXx]$ ]]; then
                     echo
                     return
@@ -51,15 +54,15 @@ while [ -n "$folders" ]; do
             fi
         done
 
-        local local_folders=$(find $folder -type d ! -path $folder -maxdepth 1)
-        for f in ${=local_folders}; do
+        local local_folders=("${(@f)$(find $folder -maxdepth 1 -type d ! -path $folder)}")
+        for f in $local_folders; do
             decision_made=
             skip_rest=
             echo -n "Found folder $f. Pack up? "
             while [ -z "$decision_made" ]; do
                 read -sk 1
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    files+=($f)
+                    files+=("$f")
                     decision_made=1
                     echo Folder will be included.
                 elif [[ $REPLY =~ ^[Nn[:space:]]$ ]]; then
@@ -70,7 +73,7 @@ while [ -n "$folders" ]; do
                     ls $f
                     echo -n "Found folder $f. Pack up? "
                 elif [[ $REPLY =~ ^[Rr]$ ]]; then
-                    folders+=($f)
+                    folders+=("$f")
                     decision_made=1
                     echo Folder will be recursed into.
                 elif [[ $REPLY =~ ^[QqXx]$ ]]; then
@@ -93,6 +96,6 @@ done
 if [ -z "$files" ]; then
     echo No files to pack up.
 else
-    zip -r $1 ${=files}
+    zip -r $1 "${files[@]}"
     echo Zipped and ready to go.
 fi

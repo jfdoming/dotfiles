@@ -139,7 +139,8 @@ alias ".fx"="dotfiles"
 # Basic aliases
 alias e=exit
 alias c=clear
-alias l=ls
+alias l="ls --color=auto"
+alias ls="ls --color=auto"
 alias cd..="cd .."
 alias se="vim ~/.crc"
 alias sr="source ~/.crc"
@@ -164,7 +165,7 @@ va() {
 
 alias vm="$VCS commit"
 alias vr="$VCS reset"
-alias vd="$VCS diff"
+alias vd="$VCS diff --color"
 
 vR() {
     if [ $# -eq 0 ]; then
@@ -189,6 +190,14 @@ vB() {
     git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 }
 
+vW() {
+    if [ $# -eq 0 ]; then
+        $VCS check-whitespace .
+    else
+        $VCS check-whitespace $@
+    fi
+}
+
 # For git who? (blame)
 alias vw=$HOME/tools/ruby/git_blame.rb $@
 
@@ -205,4 +214,8 @@ if [ -f "$HOME/.crc-macos" ]; then
 fi
 if [ -f "$HOME/.crc-linux" ]; then
     source "$HOME/.crc-linux"
+fi
+
+if [ -f "$HOME/.auxrc" ]; then
+    source "$HOME/.auxrc"
 fi
