@@ -21,6 +21,7 @@ set incsearch
 set hlsearch
 set backspace=indent,eol,start
 set mouse=a
+set ttymouse=sgr
 
 filetype plugin indent on
 " show existing tab with 4 spaces width
@@ -85,6 +86,7 @@ nnoremap <Up> :echo "This command is disabled."<CR>
 nnoremap <Down> :echo "This command is disabled."<CR>
 
 " Custom actions
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
 " Ctrl-P toggles the netrw drawer
 let g:NetrwIsOpen=0
@@ -132,7 +134,7 @@ nnoremap <silent> <C-\> <ESC>^i//<SPACE><ESC>j
 ""let g:prettier#config#html_whitespace_sensitivity = 'css'
 
 " New method; hacky, but works!
-autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+autocmd BufNewFile,BufRead *.tsx,*.jsx setlocal filetype=typescript.tsx
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType typescript.tsx setlocal shiftwidth=2 tabstop=2 softtabstop=2
