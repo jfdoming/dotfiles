@@ -118,8 +118,9 @@ dotfiles() {
             __old_name=$(dotfiles remote get-url origin | sed -rn "s/https:\/\/github.com\/(.*)/\1/p")
             if [ -n "$__old_name" ]; then
                 dotfiles remote set-url origin "git@github.com:$__old_name"
+                echo "SSH access configured."
             else
-                echo "Are you already using SSH?"
+                echo "SSH access is already set up!"
             fi
             unset __old_name
             return
