@@ -1,0 +1,178 @@
+#!/bin/bash
+
+PROGRAM_NAME=LiveDiff
+PROGRAM_VERSION=0.3
+
+ignore() {
+    echo
+    echo
+    echo -n "$ "
+}
+
+usage() {
+    echo "Usage: ldiff [sample candidate]" >&2
+}
+
+trap "ignore" INT
+
+sample="$1"
+candidate="$2"
+if [ -z "$sample" ]; then
+    if [ -r ".samplecache" ] && [ -r ".tstcache" ]; then
+        sample=$(cat .samplecache)
+        candidate=$(cat .tstcache)
+    else
+        echo "Missing sample program." >&2
+        usage
+        exit 3
+    fi
+fi
+
+if ! [ -x "$(command -v "$sample")" ]; then
+    echo "Invalid sample program." >&2
+    exit 3
+fi
+
+if [ -z "$candidate" ]; then
+    if [ -r ".tstcache" ]; then
+        candidate=$(cat ".tstcache")
+    else
+        echo "Missing candidate program." >&2
+        usage
+        exit 3
+    fi
+fi
+
+if ! [ -x "$(command -v "$candidate")" ]; then
+    echo "Invalid candidate program." >&2
+    exit 3
+fi
+
+clear
+
+print_ch() {
+    echo " - $1: $2"
+}
+
+print_help() {
+    echo "Commands:"
+    print_ch "diff" "starts live diffing"
+    print_ch "print" "print the last diff"
+    print_ch "save" "saves the last diff as a test"
+    print_ch "help" "displays this message"
+    print_ch "info" "displays program information"
+    print_ch "clear" "clears the screen"
+    print_ch "exit" "exits the program"
+}
+
+print_info() {
+    echo "$PROGRAM_NAME v$PROGRAM_VERSION"
+    echo "Type \"help\" for a list of options."
+}
+
+print_last() {
+    if [ -r "$output" ]; then
+        cat "$output"
+    else
+        echo "No data; run \"diff\" to generate some."
+    fi
+}
+
+save_last() {
+    if [ -r "$output" ]; then
+        read -p "Enter a test name: " test_name
+        if [ -z "$test_name" ]; then
+            echo "Abort..."
+            return
+        fi
+
+        if [ -n "$PROJECT" ]; then
+            prefix=$HOME/$COURSEROOT/$PROJECT/tests/
+        fi
+        $sample < $input > $prefix$test_name.out
+        cat $input > $prefix$test_name.in
+        echo "Test $test_name created."
+    else
+        echo "No data; run \"diff\" to generate some."
+    fi
+}
+
+run_diff() {
+    temp1=$(mktemp)
+    temp2=$(mktemp)
+    input=$(mktemp)
+    output=$(mktemp)
+    mkfifo $temp1.io
+
+    cat $temp1.io | tee $input >($sample > $temp1) >($candidate > $temp2) > /dev/null &
+
+    tmux new-session "trap '' INT;cat > $temp1.io;tmux kill-session" \;\
+        split-window -dv "watch --color -tn 0.1 \"printf '%-36s%36s\n' '$sample' '$candidate';colordiff -y $temp1 $temp2 | tee $output\"" \;\
+        swap-pane -U \; resize-pane -y 3 \; unbind-key -a \;\
+        set -g status-left-length 100 \;\
+        set -g status-left "Enter standard input, then type Ctrl-D when you are done." \;\
+        set -g status-right "" \;\
+        set-window-option -g window-status-format "" \;\
+        set-window-option -g window-status-current-format "" \;\
+        attach > /dev/null
+
+    # Make sure we get the final version of the diff.
+    colordiff -y $temp1 $temp2 | tee $output
+
+    cleanup
+}
+
+cleanup() {
+    rm $temp1
+    rm $temp1.io
+    rm $temp2
+}
+
+print_info
+while read -erp "$ " user_cmd; do
+    user_cmd=$(echo $user_cmd | tr '[:upper:]' '[:lower:]')
+    case "$user_cmd" in
+        c|clear)
+            clear
+            ;;
+        e|x|q|quit|exit)
+            break
+            echo
+            ;;
+        d|diff)
+            run_diff
+            echo
+            ;;
+        p|print)
+            print_last
+            echo
+            ;;
+        s|save)
+            save_last
+            echo
+            ;;
+        i|info)
+            print_info
+            echo
+            ;;
+        h|"?"|help)
+            print_help
+            echo
+            ;;
+        "")
+            echo
+            ;;
+        *)
+            echo "Invalid command."
+            print_help
+            echo
+            ;;
+    esac
+done
+
+if [ -z "$user_cmd" ]; then
+    echo
+fi
+
+rm -f "$input"
+rm -f "$output"
