@@ -146,6 +146,15 @@ alias cd..="cd .."
 alias se="vim ~/.crc"
 alias sr="source ~/.crc"
 alias sc="se && sr"
+cap() {
+    if [ -z "$1" ]; then
+        echo Missing file \#1.
+    elif [ -z "$2" ]; then
+        echo Missing file \#2.
+    else
+        comm -12 <(cat $1 | sort) <(cat $2 | sort)
+    fi
+}
 
 # Course aliases
 alias sshl="ssh jfdoming@linux.student.cs.uwaterloo.ca $@"
@@ -204,7 +213,7 @@ alias vw=$HOME/tools/ruby/git_blame.rb $@
 
 alias py="python3" # Overwritten on Windows platforms
 
-PATH="$PATH:$HOME/tools/sh"
+PATH="$PATH:$HOME/tools/sh:$HOME/tools/local/sh"
 
 # Platform-specific scripts
 if [ -f "$HOME/.crc-win10" ]; then

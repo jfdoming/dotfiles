@@ -6,6 +6,7 @@ function! SourceIfExists(file)
 endfunction
 
 call SourceIfExists("~/.vimplugins")
+call SourceIfExists("~/.vimaux")
 
 syntax enable
 :silent! colorscheme gruvbox
