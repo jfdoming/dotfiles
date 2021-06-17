@@ -5,6 +5,9 @@ export EDITOR=vim
 # http://manpages.ubuntu.com/manpages/xenial/man1/gpg-agent.1.html
 export GPG_TTY=$(tty)
 
+export HISTSIZE=65536
+export HISTFILESIZE=65536
+
 # Dotfiles stuff
 dotfiles() {
     git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
