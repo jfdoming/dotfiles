@@ -158,6 +158,15 @@ cap() {
         comm -12 <(cat $1 | sort) <(cat $2 | sort)
     fi
 }
+xcap() {
+    if [ -z "$1" ]; then
+        echo Missing file \#1.
+    elif [ -z "$2" ]; then
+        echo Missing file \#2.
+    else
+        comm -3 <(cat $1 | sort) <(cat $2 | sort)
+    fi
+}
 
 # Course aliases
 alias sshl="ssh jfdoming@linux.student.cs.uwaterloo.ca $@"
