@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Sample usage:
+# ../setup/recur.sh "CS 486 Quiz" 24 "last friday 9am","tomorrow 9am" "oct 13","oct 15"
+
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+    echo "Usage: recur.sh \"Event Name\" count dates..."
+    exit
+fi
+
+if [ -z "$1" ]; then
+    echo Event name is required.
+    exit 1
+fi
+
+if [ -z "$2" ]; then
+    echo Event count is required.
+    exit 1
+fi
+
+if [ -z "$3" ]; then
+    echo At least one date pattern is required.
+    exit 1
+fi
+
+title="$1"
+max=$2
+
+IFS=',' read -ra initial_dates <<< "$3"
+
+for date_pattern in "${initial_dates[@]}"; do
+    if ! date -d "$date_pattern+0days" > /dev/null 2>&1; then
+        echo Invalid date pattern $date_pattern.
+        exit 1
+    fi
+done
+
+IFS=',' read -ra skip_dates <<< "$4"
+
+for date_pattern in "${skip_dates[@]}"; do
+    if ! date -d "$date_pattern+0days" > /dev/null 2>&1; then
+        echo Invalid date pattern $date_pattern.
+        exit 1
+    fi
+done
+
+index=1
+offset_index=0
+while [[ $index -le $max ]]; do
+    date_index=$(( ( ( index - 1 ) % ${#initial_dates[@]} ) ))
+    date_offset=$(( ( offset_index / ${#initial_dates[@]} ) * 7 ))
+    target_date="${initial_dates[$date_index]}+${date_offset}days"
+    offset_index=$(( offset_index + 1 ))
+    for skip_date in "${skip_dates[@]}"; do
+        if [ "$(date -d "$target_date")" == "$(date -d "$skip_date")" ]; then
+            continue 2 # Continue outer loop.
+        fi
+    done
+
+    when=$(date -d "$target_date")
+    gcalcli add --details=calendar --reminder="1d popup" --calendar="Tasks" --duration=0 --title="$title $index" --where="" --when="$when" --description="" || exit
+    index=$((index + 1))
+done
