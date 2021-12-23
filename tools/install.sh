@@ -76,17 +76,6 @@ else
     echo "Repository already cloned, skipping..."
 fi
 
-# Install custom Git prompt.
-if [ -f "$HOME/git-prompt-local.sh" ]; then
-    echo "Custom prompt already installed, skipping..."
-else
-    if $__install_curlcmd https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh > $HOME/git-prompt-local.sh 2> /dev/null; then
-        echo "Custom prompt installed."
-    else
-        echo "Failed to install custom prompt, skipping..."
-    fi
-fi
-
 # Install plugins for vim.
 if command -v vim > /dev/null; then
     if ! [ -d $HOME/.vim/bundle/Vundle.vim ]; then

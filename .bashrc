@@ -1,5 +1,9 @@
-if ! command -v __git_ps1 > /dev/null; then
-    source $HOME/git-prompt-local.sh
+PREFIX=
+if command -v brew > /dev/null; then
+    PREFIX="$(brew --prefix)"
+fi
+if [ -f "$PREFIX/etc/bash_completion" ]; then
+    . "$PREFIX/etc/bash_completion"
 fi
 
 # \[\033 ... \007\] means "set the terminal title to ..."
