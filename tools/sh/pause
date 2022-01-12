@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo="$(sh -c "which echo")"
+
 # Many thanks to https://unix.stackexchange.com/a/464963 for the
 # POSIX-compatible single-character read implementation!
 cleanup() {
@@ -29,9 +31,9 @@ read1char() {
 
 
 if [ "$#" -ge 1 ]; then
-    echo -n "$@"
+    $echo -n "$@"
 else
-    echo -n "Press any key to continue..."
+    $echo -n "Press any key to continue..."
 fi
 read1char answer
 cleanup 0

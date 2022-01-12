@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo="$(sh -c "which echo")"
+
 if [ "$#" -le 2 ]; then
     if [ "$#" -eq 0 ]; then
         echo "Please specify the type of the choices."
@@ -26,7 +28,7 @@ list_choices() {
 
 list_choices "$@"
 
-echo -n "Please select $pref $type: "
+$echo -n "Please select $pref $type: "
 IFS= read choice
 
 number_regex='^-?[0-9]+$'
@@ -58,6 +60,6 @@ while true; do
         break
     fi
 
-    echo -n "Come again? "
+    $echo -n "Come again? "
     IFS= read choice
 done
