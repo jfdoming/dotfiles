@@ -255,6 +255,11 @@ vfr() {
     $VCS grep -l $1 | xargs sed -i "" -E -e "s/$1/$2/g"
 }
 
+vnt() {
+    # git not-tree
+    git ls-files --others --directory
+}
+
 # For git who? (blame)
 alias vw=$HOME/tools/ruby/git_blame.rb $@
 
