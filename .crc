@@ -276,3 +276,25 @@ fi
 if [ -f "$HOME/.auxrc" ]; then
     source "$HOME/.auxrc"
 fi
+
+
+# Functions depending on platform-specific scripts.
+termopen() {
+    if [ -z "$1" ]; then
+        return
+    fi
+    if [ -d "$1" ]; then
+        echo "cd to $1"
+        cd "$1"
+
+        # The behaviour of the `ls` command depends on the platform.
+        ls -a
+    elif [ -f "$1" ]; then
+        echo "edit $1"
+        if [ -z "$2" ]; then
+            vim "$1"
+        else
+            vim "$1" +"$2"
+        fi
+    fi
+}
