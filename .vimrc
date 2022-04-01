@@ -151,3 +151,6 @@ function! Prettier()
     call winrestview(l:view)
     unlet l:view
 endfunction
+
+"" Fix typescript redraw timeout.
+set re=0
