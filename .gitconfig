@@ -1,7 +1,3 @@
-# Include any local configuration if it exists.
-[include]
-    path = ./.gitconfig-local
-
 [pager]
     diff = perl /usr/share/doc/git/contrib/diff-highlight/diff-highlight | less
 
@@ -10,3 +6,14 @@
 
 [commit]
     gpgsign = true
+
+# Rewrite https requests as SSH requests for GitHub URLs.
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+
+[core]
+    excludesfile = ~/.gitexcludes
+
+# Include any local configuration if it exists.
+[include]
+    path = ./.gitconfig-local

@@ -1,0 +1,3 @@
+# Source this file inside your local .gitconfig if on macOS.
+[pager]
+    diff = perl /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less
