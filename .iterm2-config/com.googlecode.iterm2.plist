@@ -2,18 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AppleAntiAliasingThreshold</key>
-	<integer>1</integer>
-	<key>ApplePressAndHoldEnabled</key>
-	<false/>
-	<key>AppleScrollAnimationEnabled</key>
-	<integer>0</integer>
-	<key>AppleSmoothFixedFontsSizeThreshold</key>
-	<integer>1</integer>
-	<key>AppleWindowTabbingMode</key>
-	<string>manual</string>
 	<key>Coprocess MRU</key>
 	<array>
+		<string>echo termopen "/Users/jdominguez-schatz" ""</string>
+		<string>echo termopen "/Users/jdominguez-schatz/README.md" ""</string>
 		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/src/components/CoreUIDropdown/TypeAheadDropdown.tsx" "11"</string>
 		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui" ""</string>
 		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/src/components/CoreUIDropdown/tests/index.spec.tsx" "526"</string>
@@ -32,8 +24,6 @@
 		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@lyft/frontend-build/service-config/tsconfig/tsconfig.json" ""</string>
 		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@storybook/manager-webpack4/prebuilt-manager.js" ""</string>
 		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@storybook/core-server/dist/esm/build-static.js" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@storybook/core-server/dist/cjs/cli/prod.js" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@storybook/core-server/dist/esm/cli/dev.js" ""</string>
 	</array>
 	<key>Default Bookmark Guid</key>
 	<string>8B649FC0-5501-4F0A-A3D3-B6742723C759</string>

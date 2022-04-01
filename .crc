@@ -303,3 +303,8 @@ termopen() {
         fi
     fi
 }
+
+if command -v thefuck > /dev/null; then
+    eval $(thefuck --alias oops)
+fi
+alias fuck="oops"
