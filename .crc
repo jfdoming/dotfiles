@@ -241,6 +241,20 @@ vW() {
     fi
 }
 
+vfr() {
+    if [ -z "$1" ]; then
+        echo "Missing search string."
+        return
+    fi
+
+    if [ "$#" -eq 1 ]; then
+        echo "Missing replacement string."
+        return
+    fi
+
+    $VCS grep -l $1 | xargs sed -i "" -E -e "s/$1/$2/g"
+}
+
 # For git who? (blame)
 alias vw=$HOME/tools/ruby/git_blame.rb $@
 
