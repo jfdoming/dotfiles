@@ -89,6 +89,7 @@ if [ -n "$config_type" ]; then
                         if do_confirm "configure for Windows 10 and disable all other OS configurations"; then
                             suppress .crc-macos
                             suppress .crc-linux
+                            suppress .gitconfig-macos
 
                             restore .crc-win10
 
@@ -101,6 +102,7 @@ if [ -n "$config_type" ]; then
                             suppress .crc-linux
 
                             restore .crc-macos
+                            restore .gitconfig-macos
 
                             echo "Configuration complete."
                         fi
@@ -109,6 +111,7 @@ if [ -n "$config_type" ]; then
                         if do_confirm "configure for Linux and disable all other shell configurations"; then
                             suppress .crc-win10
                             suppress .crc-macos
+                            suppress .gitconfig-macos
 
                             restore .crc-linux
 
@@ -120,6 +123,8 @@ if [ -n "$config_type" ]; then
                             restore .crc-win10
                             restore .crc-macos
                             restore .crc-linux
+                            restore .gitconfig-macos
+
                             echo "Configuration complete."
                         fi
                         ;;
