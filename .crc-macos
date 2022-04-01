@@ -5,10 +5,14 @@
 type j > /dev/null && j > /dev/null
 
 # Enable default colourized output for ls.
-alias $(alias l) -G
+alias ls="ls -G"
+alias l="ls"
 unset LSCOLORS
 export CLICOLOR=1
 export CLICOLOR_FORCE=1
+
+# Fix for the clear command.
+alias clear="printf '\033c\033[3J'"
 
 # Fix for the history command.
 history() {
@@ -18,3 +22,6 @@ history() {
         builtin history $1
     fi
 }
+
+# Fix for GPG.
+export GPG_TTY=$TTY
