@@ -1,5 +1,5 @@
 # Enable the autojump utility.
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 # Try to jump to a suitable starting directory.
 type j > /dev/null && j > /dev/null
@@ -25,3 +25,6 @@ history() {
 
 # Fix for GPG.
 export GPG_TTY=$TTY
+
+# Attempt to locate the diff-highlight program generically.
+export DIFF_HIGHLIGHT="$(brew list git | grep diff-highlight/diff-highlight\$)"
