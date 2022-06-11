@@ -214,17 +214,17 @@ vB() {
 }
 
 vbr() {
+    if [ "$1" != "-f" ]; then
+        $VCS fetch --all --prune
+    fi
+
     # https://medium.com/@kcmueller/delete-local-git-branches-that-were-deleted-on-remote-repository-b596b71b530c
     branches="$(vb -vv 2> /dev/null | grep ': gone]' | grep -v '\*' | awk '{ print $1; }')"
     if [ -z "$branches" ]; then
         echo "No branches with a missing upstream."
     else
-        if [ "$1" = "-F" ]; then
+        if [ "$1" = "-f" ]; then
             echo -n "$branches" | xargs -r git branch -D
-        elif [ "$1" = "-f" ]; then
-            if ! echo -n "$branches" | xargs -r git branch -d; then
-                echo "Use -F to force remove branches."
-            fi
         else
             echo "Branches with a missing upstream:"
             echo "$branches"
