@@ -9,8 +9,10 @@ call SourceIfExists("~/.vimplugins")
 call SourceIfExists("~/.vimaux")
 
 syntax enable
-:silent! colorscheme gruvbox
 set background=dark
+:silent! colorscheme gruvbox
+":silent! hi Normal guibg=NONE ctermbg=NONE
+":silent! hi EndOfBuffer guibg=None ctermbg=NONE
 
 let g:gruvbox_improved_warnings = '1'
 let g:gruvbox_underline = '1'
@@ -110,7 +112,7 @@ endfunction
 
 noremap <silent> <C-P> :call ToggleNetrw()<CR>
 
-" Ctrl-/ adds a C-style comment
+" Ctrl-\ adds a C-style comment
 nnoremap <silent> <C-\> <ESC>^i//<SPACE><ESC>j
 
 
@@ -145,7 +147,7 @@ autocmd BufWritePost * if count(["typescript.tsx"],&filetype) | call Prettier() 
 
 function! Prettier()
     let l:view = winsaveview()
-    :silent !npx prettier --write %
+    :silent !. ~/.nvm/nvm.sh && npx prettier --write %
     :e
     :redraw!
     call winrestview(l:view)
