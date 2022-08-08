@@ -141,7 +141,7 @@ dotfiles() {
 alias ".fx"="dotfiles"
 
 # Basic aliases
-alias e=exit
+alias e="exit 0"
 alias c=clear
 alias l="ls --color=auto"
 alias ls="ls --color=auto"
