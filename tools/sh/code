@@ -1,7 +1,0 @@
-#!/bin/zsh
-
-if [ -z "$1" ]; then
-    vscode .
-else
-    vscode $@
-fi
