@@ -36,3 +36,17 @@ export GPG_TTY=$TTY
 
 # Attempt to locate the diff-highlight program generically.
 export DIFF_HIGHLIGHT="$(brew list git | grep diff-highlight/diff-highlight\$)"
+
+export FZF_DEFAULT_COMMAND="fd ."
+if [ -f ~/.fzf.zsh ]; then
+    source ~/.fzf.zsh
+    f() {
+        file="$(fzf "$@")"
+        if [ -z "$file" ]; then
+            return 1
+        fi
+
+        echo "$file"
+        $EDITOR "$file"
+    }
+fi
