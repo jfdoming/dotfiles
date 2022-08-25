@@ -1,3 +1,5 @@
+[ -f "$HOME/.zshauxrc.pre" ] && source "$HOME/.zshauxrc.pre"
+
 # Expected path to the oh-my-zsh installation.
 ZSH_PATH="$HOME/.oh-my-zsh"
 
