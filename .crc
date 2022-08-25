@@ -174,7 +174,7 @@ alias sshl="ssh jfdoming@linux.student.cs.uwaterloo.ca $@"
 # VCS aliases
 VCS="git"
 alias v="$VCS"
-alias vs="$VCS status"
+alias vs="$VCS status -sb"
 alias vl="$VCS log"
 
 va() {
@@ -186,16 +186,20 @@ va() {
 }
 
 alias vm="$VCS commit"
+alias vma="$VCS commit --amend"
 alias vr="$VCS reset"
 alias vd="$VCS diff --color"
 
-vR() {
+vx() {
     if [ $# -eq 0 ]; then
         $VCS rebase -i
     else
         $VCS rebase $@
     fi
 }
+alias vxi="vx -i"
+alias vxc="vx --continue"
+alias vxa="vx --abort"
 
 alias vb="$VCS branch"
 alias vP="$VCS pull"
@@ -207,6 +211,7 @@ alias vt="$VCS stash"
 alias vta="$VCS stash apply"
 alias vfp="$VCS fetch --all --prune"
 alias vg="$VCS grep"
+alias vds="$VCS diff --staged"
 
 vB() {
     # Many thanks to https://stackoverflow.com/a/5188364
@@ -258,6 +263,28 @@ vfr() {
 vnt() {
     # git not-tree
     git ls-files --others --directory
+}
+
+vbb() {
+    BRANCH_BASE="$1"
+    if [ -z "$BRANCH_BASE" ]; then
+        BRANCH_BASE="main"
+    fi
+    git rev-parse "$(git rev-list --exclude-first-parent-only ^main "$(git branch --show-current)"| tail -1)^"
+}
+
+vdn() {
+    n="$1"
+    if [ -z "$n" ]; then
+        n=1
+    else
+        shift
+    fi
+    case "$n" in
+        ''|*[!0-9]*) ref="$n"; base_ref="$n~" ;;
+        *) ref="HEAD~$((n-1))"; base_ref="HEAD~$n" ;;
+    esac
+    $VCS diff --color "$base_ref" "$ref" "$@"
 }
 
 # For git who? (blame)
