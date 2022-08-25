@@ -292,7 +292,7 @@ alias vw=$HOME/tools/ruby/git_blame.rb $@
 
 alias py="python3" # Overwritten on Windows platforms
 
-PATH="$PATH:$HOME/tools/sh:$HOME/tools/local/sh"
+PATH="$PATH:$HOME/tools/sh:$HOME/tools/local/sh:$HOME/tools/local/py"
 
 # Platform-specific scripts
 if [ -f "$HOME/.auxrc" ]; then
