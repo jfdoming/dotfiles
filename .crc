@@ -294,6 +294,10 @@ alias py="python3" # Overwritten on Windows platforms
 
 PATH="$PATH:$HOME/tools/sh:$HOME/tools/local/sh:$HOME/tools/local/py"
 
+viw() {
+    vi "$(which $@)"
+}
+
 # Platform-specific scripts
 if [ -f "$HOME/.auxrc" ]; then
     source "$HOME/.auxrc"
