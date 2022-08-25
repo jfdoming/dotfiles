@@ -4,27 +4,29 @@
 <dict>
 	<key>Coprocess MRU</key>
 	<array>
-		<string>echo termopen "/Users/jdominguez-schatz" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/README.md" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/src/components/CoreUIDropdown/TypeAheadDropdown.tsx" "11"</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/src/components/CoreUIDropdown/tests/index.spec.tsx" "526"</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/src/components/CoreUIDropdown/tests/typeAheadDropdown.spec.tsx" "41"</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/stories/fixtures/table.tsx" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/stories/CoreUITable.tsx" "95"</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/stories/CoreUITable.tsx" "91"</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/src/components/CoreUIButton/BaseButton.tsx" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ui/stories/CoreUITable.tsx" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/yarn-error.log" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/.cache/pre-commit/pre-commit.log" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ops-ui/src/components/CoreOpsUIGlobalHeader/index.tsx" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/packages/core-ops-ui/src/components/CoreOpsUIGlobalHeader" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@lyft/packager/package.json" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@lyft/packager/dist/cli/index.js" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@lyft/frontend-build/service-config/tsconfig/tsconfig.json" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@storybook/manager-webpack4/prebuilt-manager.js" ""</string>
-		<string>echo termopen "/Users/jdominguez-schatz/src/coreui/node_modules/@storybook/core-server/dist/esm/build-static.js" ""</string>
+		<string>echo termopen "/Users/juliands/stripe/zoolander/src/python/ml/interactive/training_request.py" "506"</string>
+		<string>echo termopen "/Users/juliands/stripe/zoolander/src/python/ml/interactive/training_request.py" "448"</string>
+		<string>echo termopen "/Users/juliands/shortlinks/package.json" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/src/js/elements/composite.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/src/js/elements/index.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/scripts/webserver.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/scripts/webpack.config.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/scripts/hot-reloader.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/compat/hot-reloader.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/src/js/background/index.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/src/js/popup/index.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/scripts/dist.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/compat/constants-hr.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/scripts/.eslintrc.json" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/compat/background-wrapper.js" ""</string>
+		<string>echo termopen "/Users/juliands/shortlinks/compat/foreground-hr.js" ""</string>
+		<string>echo termopen "/Users/juliands/stripe/zoolander/src/python/ml/lib/instrumentation/timer.py" ""</string>
+		<string>echo termopen "/Users/juliands/stripe/zoolander/src/scala/com/stripe/mlexploration/railyard_kafka_export/RailyardKafkaExportApp.scala" ""</string>
+		<string>echo termopen "/Users/juliands/stripe/zoolander/src/scala/com/stripe/mlexploration/railyard_kafka_export/BUILD" ""</string>
+		<string>echo termopen "/Users/juliands/stripe/zoolander/src/python/ml/ai/workflows/explorer_workflow.py" ""</string>
 	</array>
+	<key>CopySelection</key>
+	<false/>
 	<key>Default Bookmark Guid</key>
 	<string>8B649FC0-5501-4F0A-A3D3-B6742723C759</string>
 	<key>GlobalKeyMap</key>
@@ -714,7 +716,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>FiraCode-Regular 12</string>
+			<string>FiraCodeNerdFontComplete-Retina 12</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Option Key Sends</key>
