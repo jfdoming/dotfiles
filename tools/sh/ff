@@ -1,0 +1,35 @@
+#!/bin/bash
+
+exists() {
+    command -v "$1" > /dev/null
+}
+
+if ! exists fzf || ! exists rg || ! exists preview.sh; then
+    echo "Missing required utility."
+    exit 1
+fi
+
+cmd="$EDITOR"
+if [ -n "$1" ]; then
+    cmd="$1"
+fi
+
+if [ -n "$2" ]; then
+    cd "$2" || exit
+fi
+
+RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+IFS=: read -ra selected < <(
+  FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
+  fzf --ansi \
+      --color "hl:-1:underline,hl+:-1:underline:reverse" \
+      --disabled --query "$INITIAL_QUERY" \
+      --preview-window=top:30% \
+      --preview "preview.sh -v {} | rg --pretty --colors 'match:bg:red' --colors 'match:fg:white' --no-line-number --ignore-case --context 3 {q}" \
+      --bind "change:reload:$RG_PREFIX {q} || true" \
+      --bind "ctrl-f:unbind(change,ctrl-f)+change-prompt(2. fzf> )+preview(echo {})+enable-search+clear-query+rebind(ctrl-r)" \
+      --bind "ctrl-r:unbind(ctrl-r)+change-prompt(1. ripgrep> )+disable-search+reload($RG_PREFIX {q} || true)+rebind(change,ctrl-f)" \
+      --prompt '1. ripgrep> ' \
+      --delimiter :
+)
+[ -n "${selected[0]}" ] && "$cmd" "${selected[0]}" "+${selected[1]}"
