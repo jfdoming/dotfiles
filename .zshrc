@@ -42,6 +42,7 @@ if [ -e "$ZSH_PATH/oh-my-zsh.sh" ]; then
     [[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-history
     [[ -n "$key[Left]" ]] && bindkey -- "$key[Left]" backward-char
     [[ -n "$key[Right]" ]] && bindkey -- "$key[Right]" forward-char
+    bindkey '^r' history-incremental-search-backward
 fi
 
 # Run the rest of the common setup actions.
