@@ -136,4 +136,10 @@ else
     echo
 fi
 
+# TODO install:
+# 1. fzf
+# 2. fd
+# 3. rg
+# 4. bat
+
 $HOME/tools/setup.f.sh
