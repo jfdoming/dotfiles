@@ -23,6 +23,14 @@ history() {
     fi
 }
 
+calc() {
+    if [ "$#" -gt 0 ]; then
+        echo $@ | bc
+    else
+        bc
+    fi
+}
+
 # Fix for GPG.
 export GPG_TTY=$TTY
 
