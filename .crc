@@ -187,6 +187,7 @@ va() {
 
 alias vm="$VCS commit"
 alias vma="$VCS commit --amend"
+alias vmx="$VCS commit --amend --no-edit"
 alias vr="$VCS reset"
 alias vd="$VCS diff --color"
 
