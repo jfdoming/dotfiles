@@ -266,6 +266,7 @@ vnt() {
     git ls-files --others --directory
 }
 
+# Requires git v2.36
 vbb() {
     BRANCH_BASE="$1"
     if [ -z "$BRANCH_BASE" ]; then
