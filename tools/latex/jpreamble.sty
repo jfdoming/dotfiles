@@ -1,0 +1,62 @@
+\ProvidesPackage{jpreamble}
+
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage[shortlabels]{enumitem}
+
+\setlist[enumerate,1]{label={(\alph*)}} % Set the default enumerate style to (a).
+
+\newcommand{\svprefix}{Q}
+\newcommand{\sprefix}[1]{\renewcommand{\svprefix}{#1}}
+\renewcommand\thesection{\svprefix\arabic{section}}
+
+\newcommand{\header}[1]{{\Large\bf #1}\\\vspace{3mm}}
+
+\newcommand{\mvcourse}{XX YYY}
+\newcommand{\mcourse}[1]{\renewcommand{\mvcourse}{#1}}
+\newcommand{\mvterm}{XX 20YY}
+\newcommand{\mterm}[1]{\renewcommand{\mvterm}{#1}}
+\newcommand{\mvtype}{Evaluation}
+\newcommand{\mvnumber}{0}
+\newcommand{\mquiz}[1]{\renewcommand{\mvtype}{Quiz}\renewcommand{\mvnumber}{#1}}
+\newcommand{\massignment}[1]{\renewcommand{\mvtype}{Assignment}\renewcommand{\mvnumber}{#1}}
+\newcommand{\mmidterm}[1][\relax]{\renewcommand{\mvtype}{Midterm}\renewcommand{\mvnumber}{#1}}
+\newcommand{\mfinal}{\renewcommand{\mvtype}{Final Exam}\renewcommand{\mvnumber}{}}
+\newcommand{\metahere}{
+    \begin{center}
+    \header{University of Waterloo}
+    \header{\mvcourse\ \mvterm}
+    \header{\mvtype\ \mvnumber}
+    \header{Submitted by jfdoming (20792318)}
+    \end{center}
+}
+
+\newcommand{\nometa}{\ifdefined\else\newcommand{\mvhide}{\relax}\fi}
+
+\newcommand{\doproblemreset}{\@undefined}
+\newcommand{\problemreset}[1]{\renewcommand{\doproblemreset}{#1}}
+\newcommand{\problem}{
+    \ifdefined\mvshown
+    \else
+        \ifdefined\mvhide
+        \else
+            \metahere
+            \newcommand{\mvshown}{\relax}
+        \fi
+    \fi
+    \section{}
+    \ifdefined\doproblemreset
+    \doproblemreset
+    \fi
+}
+
+\newcommand{\theinitialproblem}{1}
+\newcommand{\setinitialproblem}[1]{
+    \setcounter{section}{#1}
+    \addtocounter{section}{-1}
+    \renewcommand{\theinitialproblem}{#1}
+}
+
+% Create a new page for each problem.
+\usepackage{titlesec}
+\newcommand\sectionbreak{\ifnum\value{section}>\theinitialproblem\clearpage\fi}

@@ -1,0 +1,114 @@
+\ProvidesPackage{jmath}
+
+\usepackage{jpreamble}
+
+\usepackage{amssymb, amsmath, amsthm, mathtools}
+
+%\allowdisplaybreaks
+% Uncomment the above line to allow align* environments to spill over the page.
+% You can also use \allowdisplaybreaks[0] to disable this at a certain point in the document.
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
+
+% Add a counter reset for each type of theorem.
+\problemreset{
+    \setcounter{lemma}{0}
+}
+
+%\newenvironment{claim}{\textbf{Claim:}}{}
+%\newenvironment{pproof}{
+%    \problem
+%    \begin{proof}
+%}{
+%    \end{proof}
+%}
+%\newenvironment{pcproof}[1]{
+%    \problem
+%    \begin{claim}#1\end{claim}
+%    \begin{proof}
+%}{
+%    \end{proof}
+%}
+
+\newcommand{\ip}[1]{\left\langle{#1}\right\rangle}
+\newcommand{\vip}[2]{\ip{\vec{#1},\vec{#2}}}
+\newcommand{\norm}[1]{\left\lVert{#1}\right\rVert}
+\newcommand{\vnorm}[1]{\norm{\vec{#1}}}
+\newcommand{\normalized}[1]{\frac{\vec{#1}}{\vnorm{#1}}}
+\newcommand{\Span}[1]{\mathrm{Span}\{#1\}}
+\newcommand{\Proj}[2][]{\mathrm{Proj}_{#1}(#2)}
+\newcommand{\Rn}{\mathbb{R}^n}
+\newcommand{\Rm}{\mathbb{R}^m}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}[2][]{\underset{#1}{\mathbb{E}}\left[#2\right]}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Pt}{\mathbb{P}}
+\newcommand{\Int}[1]{\mathrm{int}(#1)}
+\newcommand{\Log}{\mathrm{Log}}
+\newcommand{\Arg}{\mathrm{Arg}}
+\newcommand{\pv}{\mathrm{P.V.}\;}
+\newcommand{\rank}[1]{\mathrm{rank}(#1)}
+\newcommand{\Res}[2]{\mathrm{Res}(#1;#2)}
+\newcommand{\recip}[1]{\frac{1}{#1}}
+\newcommand{\del}{\partial}
+\newcommand{\pd}[2]{\frac{\del{#1}}{\del{#2}}}
+\newcommand{\dvar}[1]{\;\mathrm{d}#1}
+\newcommand{\dx}{\dvar x}
+\newcommand{\dy}{\dvar y}
+\newcommand{\dz}{\dvar z}
+\newcommand{\dt}{\dvar t}
+\newcommand{\dtheta}{\dvar\theta}
+\newcommand{\du}{\dvar u}
+\newcommand{\dv}{\dvar v}
+\newcommand{\ds}{\dvar s}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\vcdim}{VCdim}
+\DeclareMathOperator*{\sign}{sign}
+
+\newcommand{\sseqi}[3]{\left({#2}_{#1}\right)_{#3}^\infty}
+\newcommand{\seqi}[2][k]{\left({#2}_{#1}\right)_{#1=1}^\infty}
+\newcommand{\seq}[1]{\seqi{#1}}
+\newcommand{\zseq}[1]{\sseqi{k}{#1}{k=0}}
+\newcommand{\vsseqi}[3]{\sseqi{#1}{\vec{#2}}{#3}}
+\newcommand{\vseqi}[2][k]{\seqi[#1]{\vec{#2}}}
+\newcommand{\vseq}[1]{\vseqi{#1}}
+\renewcommand{\d}{\delta}
+\newcommand{\e}{\varepsilon}
+\newcommand{\Smat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\Dmat}[1]{\begin{vmatrix}#1\end{vmatrix}}
+\newcommand{\Rmat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+
+\renewcommand{\emptyset}{\varnothing}
+
+% Used in align* environments to align the first-line equation with the subsequent lines.
+\newcommand{\equad}{\mathrel{\phantom{=}}}
+
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+\let\OldRe\Re
+\let\OldIm\Im
+\renewcommand{\Re}[1]{\OldRe\left\{{#1}\right\}}
+\renewcommand{\Im}[1]{\OldIm\left\{{#1}\right\}}
+
+\newcommand{\listproof}[1]{
+    \item\begin{proof}
+        #1
+    \end{proof}
+}
+\newcommand{\plist}[1]{
+    \problem
+    \begin{enumerate}
+        #1
+    \end{enumerate}
+}
