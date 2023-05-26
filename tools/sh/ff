@@ -4,8 +4,18 @@ exists() {
     command -v "$1" > /dev/null
 }
 
-if ! exists fzf || ! exists rg || ! exists preview.sh; then
-    echo "Missing required utility."
+if ! exists fzf; then
+    echo "Missing required utility \`fzf\`."
+    exit 1
+fi
+
+if ! exists rg; then
+    echo "Missing required utility \`rg\`."
+    exit 1
+fi
+
+if ! exists preview.sh; then
+    echo "Missing required utility \`preview.sh\`. Check your dotfiles installation"'!'
     exit 1
 fi
 
