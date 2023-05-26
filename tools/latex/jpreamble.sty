@@ -60,3 +60,4 @@
 % Create a new page for each problem.
 \usepackage{titlesec}
 \newcommand\sectionbreak{\ifnum\value{section}>\theinitialproblem\clearpage\fi}
+\newcommand\nosectionbreaks{\let\sectionbreak\undefined}
