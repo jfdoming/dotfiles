@@ -47,8 +47,7 @@ export GPG_TTY=$TTY
 export DIFF_HIGHLIGHT="$(brew list git | grep diff-highlight/diff-highlight\$)"
 
 export FZF_DEFAULT_COMMAND="fd ."
-if [ -f ~/.fzf.zsh ]; then
-    source ~/.fzf.zsh
+if command -v fzf > /dev/null && command -v fd > /dev/null; then
     f() {
         file="$(fzf "$@")"
         if [ -z "$file" ]; then
