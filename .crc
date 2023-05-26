@@ -174,7 +174,15 @@ alias sshl="ssh jfdoming@linux.student.cs.uwaterloo.ca $@"
 # VCS aliases
 VCS="git"
 alias v="$VCS"
-alias vs="$VCS status -sb"
+
+vs() {
+    if $VCS rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        $VCS status -sb
+    else
+        ls
+    fi
+}
+
 alias vl="$VCS log"
 
 va() {
