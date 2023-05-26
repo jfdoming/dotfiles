@@ -5,7 +5,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 # Try to jump to a suitable starting directory.
-type j > /dev/null && j > /dev/null
+# NOTE: This line is disabled by default since terminals like warp.dev will
+# automatically restore the previous working directory. To enable it, use
+# your .auxrc file.
+# type j > /dev/null && j > /dev/null
 
 # Enable default colourized output for ls.
 alias ls="ls -G"
