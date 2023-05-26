@@ -280,7 +280,7 @@ vbb() {
     if [ -z "$BRANCH_BASE" ]; then
         BRANCH_BASE="main"
     fi
-    git rev-parse "$(git rev-list --exclude-first-parent-only ^main "$(git branch --show-current)"| tail -1)^"
+    git rev-parse "$(git rev-list --exclude-first-parent-only ^$BRANCH_BASE "$(git branch --show-current)"| tail -1)^"
 }
 
 vdn() {
