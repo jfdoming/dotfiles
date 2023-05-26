@@ -13,6 +13,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Enable default colourized output for ls.
 alias ls="ls -G"
 alias l="ls"
+if ! command -v python > /dev/null; then
+    alias python="python3"
+fi
 unset LSCOLORS
 export CLICOLOR=1
 export CLICOLOR_FORCE=1
