@@ -43,6 +43,7 @@ if ! [ -d $HOME/.dotfiles ]; then
     }
 
     rename_file .bashrc
+    rename_file .bash_profile
     rename_file .zshrc
     rename_file .crc
     rename_file .crc-macos
