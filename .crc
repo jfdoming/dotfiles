@@ -38,7 +38,7 @@ dotfiles() {
                 return
             fi
 
-            dotfiles push origin master
+            dotfiles push origin main
             ;;
         register)
             if [ -z "$2" ]; then
