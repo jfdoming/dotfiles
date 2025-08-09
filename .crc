@@ -201,12 +201,12 @@ alias vd="$VCS diff --color"
 
 vx() {
     if [ $# -eq 0 ]; then
-        $VCS rebase -i
+        $VCS rebase -i --empty drop
     else
         $VCS rebase $@
     fi
 }
-alias vxi="vx -i"
+alias vxi="vx -i --empty drop"
 alias vxc="vx --continue"
 alias vxa="vx --abort"
 
@@ -297,8 +297,50 @@ vdn() {
     $VCS diff --color "$base_ref" "$ref" "$@"
 }
 
+sync-commit() {
+    if [ -z "$1" ]; then
+        echo "Path to other repo is required" >&2
+        return 1
+    fi
+    repo="$1"
+
+    if [ -z "$2" ]; then
+        commit=HEAD
+    else
+        commit="$2"
+    fi
+
+    if [ -n "$(git status --porcelain)" ]; then
+        echo "Unstaged changes found, please commit or discard them and try again" >&2
+        return 1
+    fi
+
+    git apply <(git -C "$repo" show "$commit")
+    MSG="$(git -C "$repo" log -n 1 --pretty=format:'%s' "$commit")"
+    git add -A
+    git commit -m "$MSG"
+}
+
 # For git who? (blame)
 alias vw=$HOME/tools/ruby/git_blame.rb $@
+
+
+# Docker aliases
+alias d="docker"
+alias dxs="docker system prune --all --force --volumes"
+dxv() {
+    VOLUMES_TO_REMOVE="$(docker volume ls -qf dangling=true)"
+    if [ -n "$VOLUMES_TO_REMOVE" ]; then
+        docker volume rm $VOLUMES_TO_REMOVE
+    fi
+}
+dx() {
+    dxs
+    dxv
+}
+alias dc="docker-compose"
+alias dcu="dc up"
+
 
 alias py="python3" # Overwritten on Windows platforms
 
