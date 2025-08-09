@@ -156,3 +156,6 @@ endfunction
 
 "" Fix typescript redraw timeout.
 set re=0
+
+"" Fix modelines
+set modelines=1
