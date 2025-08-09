@@ -12,3 +12,5 @@ PS1="\[\033]0;$TITLEPREFIX:$PWD\007\]"$'\n'"\[\033[32m\]\u@\h \[\033[33m\]\w\[\0
 if [ -f "$HOME/.crc" ]; then
     source "$HOME/.crc"
 fi
+
+_install_shell_completions bash

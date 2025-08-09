@@ -391,3 +391,9 @@ if command -v thefuck > /dev/null; then
     eval $(thefuck --alias oops)
 fi
 alias fuck="oops"
+
+_install_shell_completions() {
+    shell_name="$1"
+    command -v fzf > /dev/null && eval "$(fzf --$shell_name)"
+    command -v jj > /dev/null; . <(COMPLETE=$shell_name jj)
+}
