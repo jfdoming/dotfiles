@@ -3,6 +3,7 @@
 
 [alias]
     check-whitespace = "!cd -- ${GIT_PREFIX:-.}; git diff-tree --check $(git hash-object -t tree /dev/null) HEAD"
+    parent = "!cd -- ${GIT_PREFIX:-.}; git log --decorate=full --simplify-by-decoration --oneline --format='%D' | head -2 | tail -1 | rev | cut -f 1 -d ' ' | rev | sed -E 's_refs/heads/(.*)_\\1_g'"
 
 [commit]
     gpgsign = true
