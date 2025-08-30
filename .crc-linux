@@ -8,3 +8,6 @@ if [ -n "$TTY" ]; then
 else
     export GPG_TTY=$(tty)
 fi
+
+# Configure SSH agent for saving credentials
+eval "$(ssh-agent -s)" >/dev/null
