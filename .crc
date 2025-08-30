@@ -344,7 +344,7 @@ alias dcu="dc up"
 
 alias py="python3" # Overwritten on Windows platforms
 
-PATH="$PATH:$HOME/tools/sh:$HOME/tools/local/sh:$HOME/tools/local/py"
+PATH="$PATH:$HOME/tools/sh:$HOME/tools/local/sh:$HOME/tools/local/py:$HOME/.local/bin"
 
 viw() {
     vi "$(which $@)"
