@@ -344,7 +344,7 @@ alias dcu="dc up"
 
 alias py="python3" # Overwritten on Windows platforms
 
-PATH="$PATH:$HOME/tools/sh:$HOME/tools/local/sh:$HOME/tools/local/py:$HOME/.local/bin"
+PATH="$PATH:$HOME/tools/sh:$HOME/tools/local/sh:$HOME/tools/local/py:$HOME/.local/bin:$HOME/go/bin"
 
 viw() {
     vi "$(which $@)"
@@ -395,5 +395,5 @@ alias fuck="oops"
 _install_shell_completions() {
     shell_name="$1"
     command -v fzf > /dev/null && eval "$(fzf --$shell_name)"
-    command -v jj > /dev/null; . <(COMPLETE=$shell_name jj)
+    command -v jj > /dev/null && . <(COMPLETE=$shell_name jj)
 }
