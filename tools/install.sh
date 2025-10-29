@@ -7,7 +7,7 @@ __install_curlcmd=
 if command -v curl > /dev/null; then
     __install_curlcmd=curl
 elif command -v wget > /dev/null; then
-    __install_curlcmd=wget -O -
+    __install_curlcmd="wget -O -"
 fi
 
 if [ -z "$__install_curlcmd" ]; then
@@ -16,13 +16,13 @@ if [ -z "$__install_curlcmd" ]; then
 fi
 
 
-if ! [ -d $HOME/.dotfiles ]; then
+if ! [ -d "$HOME/.dotfiles" ]; then
     if ! command -v git > /dev/null; then
         echo "Could not locate the git executable. Are you sure you added it to your path?"
         exit 1
     fi
 
-    if ! git clone --bare https://github.com/jfdoming/dotfiles $HOME/.dotfiles 2> /dev/null; then
+    if ! git clone --config core.fsmonitor=false --bare https://github.com/jfdoming/dotfiles "$HOME/.dotfiles" 2> /dev/null; then
         echo "Clone failed!"
         exit 1
     fi
@@ -62,11 +62,11 @@ if ! [ -d $HOME/.dotfiles ]; then
         echo
         echo "Renamed the following files (please migrate these files manually):"
         for file in "${__install_files[@]}"; do
-            echo $__install_files
+            echo "$file"
         done
     fi
 
-    if ! git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout; then
+    if ! git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" checkout; then
         exit 1
     fi
 
@@ -79,16 +79,16 @@ fi
 
 # Install plugins for vim.
 if command -v vim > /dev/null; then
-    if ! [ -d $HOME/.vim/bundle/Vundle.vim ]; then
-        if ! git clone https://github.com/VundleVim/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim 2> /dev/null; then
+    if ! [ -d "$HOME/.vim/bundle/Vundle.vim" ]; then
+        if ! git clone https://github.com/VundleVim/Vundle.vim.git "$HOME/.vim/bundle/Vundle.vim" 2> /dev/null; then
             echo "Cloning Vundle failed, skipping..."
         fi
     else
         echo "Vundle already installed, skipping clone..."
     fi
 
-    if [ -d $HOME/.vim/bundle/Vundle.vim ]; then
-        vim -u $HOME/.vimplugins -c "PluginInstall" -c "PluginClean" -c "qa!" < /dev/tty
+    if [ -d "$HOME/.vim/bundle/Vundle.vim" ]; then
+        vim -u "$HOME/.vimplugins" -c "PluginInstall" -c "PluginClean" -c "qa!" < /dev/tty
 
         echo "Vim plugin install succeeded."
         echo
@@ -108,22 +108,22 @@ else
     fi
 
     # ...and plugins...
-    if [ -d ${zsh_custom:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
+    if [ -d "${zsh_custom:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
         echo "zsh-autosuggestions already installed, skipping..."
     else
-        git clone https://github.com/zsh-users/zsh-autosuggestions ${zsh_custom:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+        git clone https://github.com/zsh-users/zsh-autosuggestions "${zsh_custom:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
     fi
-    if [ -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ]; then
+    if [ -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
         echo "zsh-syntax-highlighting already installed, skipping..."
     else
-        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
     fi
 
     # ...and themes.
-    if [ -d ${zsh_custom:-~/.oh-my-zsh/custom}/themes/powerlevel10k ]; then
+    if [ -d "${zsh_custom:-~/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
         echo "powerlevel10k already installed, skipping..."
     else
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
     fi
 
     # Finally, change the default shell to zsh.
@@ -143,4 +143,4 @@ fi
 # 3. rg
 # 4. bat
 
-$HOME/tools/setup.f.sh
+"$HOME/tools/setup.f.sh"
