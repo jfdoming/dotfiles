@@ -195,6 +195,7 @@ va() {
 
 alias vm="$VCS commit"
 alias vma="$VCS commit --amend"
+alias vme="$VCS commit --amend --only --no-verify"
 alias vmx="$VCS commit --amend --no-edit"
 alias vr="$VCS reset"
 alias vd="$VCS diff --color"
@@ -322,7 +323,10 @@ sync-commit() {
 }
 
 # For git who? (blame)
-alias vw=$HOME/tools/ruby/git_blame.rb $@
+alias vw="$HOME/tools/ruby/git_blame.rb"
+
+# Create pull requests
+alias pr="gh pr create -w"
 
 
 # Docker aliases
@@ -342,7 +346,8 @@ alias dc="docker-compose"
 alias dcu="dc up"
 
 
-alias py="python3" # Overwritten on Windows platforms
+# Overwritten on Windows platforms
+alias py="python3"
 
 PATH="$PATH:$HOME/tools/sh:$HOME/tools/local/sh:$HOME/tools/local/py:$HOME/.local/bin:$HOME/go/bin"
 
@@ -351,10 +356,6 @@ viw() {
 }
 
 # Platform-specific scripts
-if [ -f "$HOME/.auxrc" ]; then
-    source "$HOME/.auxrc"
-fi
-
 if [ -f "$HOME/.crc-win10" ]; then
     source "$HOME/.crc-win10"
 fi
@@ -364,31 +365,47 @@ fi
 if [ -f "$HOME/.crc-linux" ]; then
     source "$HOME/.crc-linux"
 fi
+if [ -f "$HOME/.auxrc" ]; then
+    source "$HOME/.auxrc"
+fi
 
 
 # Functions depending on platform-specific scripts.
-termopen() {
-    if [ -z "$1" ]; then
-        return
+_termopen() {
+    should_cd="$1"
+    query_path="$2"
+    line="$3"
+    if [ -z "$query_path" ]; then
+        query_path="."
     fi
-    if [ -d "$1" ]; then
-        echo "cd to $1"
-        cd "$1"
+    if [ -d "$query_path" ]; then
+        if [ "$should_cd" -eq 1 ]; then
+            echo "cd to $path"
+            cd "$query_path"
+            query_path="."
+        fi
 
         # The behaviour of the `ls` command depends on the platform.
-        ls -a
-    elif [ -f "$1" ]; then
-        echo "edit $1"
-        if [ -z "$2" ]; then
-            vim "$1"
+        ls -a "$query_path"
+    elif [ -f "$query_path" ]; then
+        echo "edit $query_path"
+        if [ -z "$line" ]; then
+            vim "$query_path"
         else
-            vim "$1" +"$2"
+            vim "$query_path" +"$line"
         fi
     fi
 }
+termopen() {
+    _termopen 1 "$@"
+}
+o() {
+    _termopen 0 "$@"
+}
+[ -n "$ZSH_VERSION" ] && compdef o=ls
 
 if command -v thefuck > /dev/null; then
-    eval $(thefuck --alias oops)
+    eval "$(thefuck --alias oops)"
 fi
 alias fuck="oops"
 
