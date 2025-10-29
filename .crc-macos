@@ -58,3 +58,10 @@ if command -v fzf > /dev/null && command -v fd > /dev/null; then
         $EDITOR "$file"
     }
 fi
+
+# Configure dotfiles executable correctly using homebrew
+export BREW_PREFIX="$(brew --prefix)"
+dotfiles() {
+    GIT="$BREW_PREFIX/bin/git"
+    $GIT --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
+}
