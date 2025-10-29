@@ -27,7 +27,7 @@ while [ -n "$folders" ]; do
 
             decision_made=
             skip_rest=
-            echo -n "Found file $f. Pack up? "
+            echo -n "Found file $f. Pack up? (y/n, v = edit, q = quit, s = skip rest)"
             while [ -z "$decision_made" ]; do
                 read -sk 1
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -58,7 +58,7 @@ while [ -n "$folders" ]; do
         for f in $local_folders; do
             decision_made=
             skip_rest=
-            echo -n "Found folder $f. Pack up? "
+            echo -n "Found folder $f. Pack up? (y/n, l = list, r = recurse, q = quit, s = skip)"
             while [ -z "$decision_made" ]; do
                 read -sk 1
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
