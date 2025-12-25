@@ -10,7 +10,7 @@ HISTFILE="$ZSH_PATH/cache/.zsh_history"
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+if [ "$TERM_PROGRAM" != "vscode" ] && [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
@@ -19,7 +19,13 @@ if [ -e "$ZSH_PATH/oh-my-zsh.sh" ]; then
     export ZSH="$ZSH_PATH"
 
     # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-    ZSH_THEME="powerlevel10k/powerlevel10k"
+    # Note that this theme doesn't work properly with VS Code Shell integration
+    # as of 2026, so disabling it conditionally there.
+    if [ "$TERM_PROGRAM" = "vscode" ]; then
+        ZSH_THEME="robbyrussell"
+    else
+        ZSH_THEME="powerlevel10k/powerlevel10k"
+    fi
 
     # Choose plugins for oh-my-zsh to load.
     plugins=(git gitfast zsh-autosuggestions zsh-syntax-highlighting)
