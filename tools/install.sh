@@ -109,7 +109,7 @@ else
     if [ -d "$HOME/.oh-my-zsh" ]; then
         echo "Oh My Zsh already installed, skipping..."
     else
-        sh -c "$(REMOTE="$PROTOCOL://github.com/ohmyzsh/ohmyzsh" $__install_curlcmd -fsSL "$PROTOCOL://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh") --unattended --keep-zshrc"
+        sh -c "REMOTE="$PROTOCOL://github.com/ohmyzsh/ohmyzsh" $($__install_curlcmd -fsSL "$PROTOCOL://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh") --unattended --keep-zshrc"
     fi
 
     # ...and plugins...
