@@ -4,7 +4,7 @@ filetype off " required for Vundle to work
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
+Plugin 'http://github.com/VundleVim/Vundle.vim'
 
 " This plugin is a duplicate of the below plugin!
 ""Plugin 'chemzqm/vim-jsx-improve'
