@@ -31,16 +31,19 @@ restore() {
 }
 
 do_confirm() {
+    if [ "$AUTO_CONFIRM" = "1" ]; then
+        return 0
+    fi
     $HOME/tools/sh/confirm Please confirm that you would like to $@.
 }
 
-config_type=$($HOME/tools/sh/choose "config type" a shell os editor 3>&2 2>&1 1>&3)
+config_type=${CONFIG_TYPE:-$($HOME/tools/sh/choose "config type" a shell os editor 3>&2 2>&1 1>&3)}
 echo
 
 if [ -n "$config_type" ]; then
     case "$config_type" in
         shell)
-            config=$($HOME/tools/sh/choose config a zsh bash "all shells" 3>&2 2>&1 1>&3)
+            config=${SHELL_CONFIG:-$($HOME/tools/sh/choose config a zsh bash "all shells" 3>&2 2>&1 1>&3)}
             echo
 
             if [ -n "$config" ]; then
@@ -80,7 +83,7 @@ if [ -n "$config_type" ]; then
             fi
             ;;
         os)
-            config=$($HOME/tools/sh/choose config a "Windows 10" "Mac OS X" "Linux" "all OSes" 3>&2 2>&1 1>&3)
+            config=${OS_CONFIG:-$($HOME/tools/sh/choose config a "Windows 10" "Mac OS X" "Linux" "all OSes" 3>&2 2>&1 1>&3)}
             echo
 
             if [ -n "$config" ]; then
@@ -135,7 +138,7 @@ if [ -n "$config_type" ]; then
             fi
             ;;
         editor)
-            config_subtype=$($HOME/tools/sh/choose "config subtype" a vim 3>&2 2>&1 1>&3)
+            config_subtype=${EDITOR_SUBTYPE:-$($HOME/tools/sh/choose "config subtype" a vim 3>&2 2>&1 1>&3)}
             echo
 
             if [ -n "$config_subtype" ]; then
@@ -150,7 +153,7 @@ if [ -n "$config_type" ]; then
                         if [ -f $HOME/.vimplugins ]; then
                             plugin_config="disable plugins"
                         fi
-                        config=$($HOME/tools/sh/choose config a "$plugin_config" 3>&2 2>&1 1>&3)
+                        config=${VIM_PLUGIN_CONFIG:-$($HOME/tools/sh/choose config a "$plugin_config" 3>&2 2>&1 1>&3)}
                         echo
 
                         if [ -n "$config" ]; then
