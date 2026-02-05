@@ -12,11 +12,11 @@ Plugin 'VundleVim/Vundle.vim'
 ""Plugin 'leafgarland/typescript-vim'
 ""Plugin 'peitalin/vim-jsx-typescript'
 
-Plugin 'morhetz/gruvbox'
-Plugin 'vim-airline/vim-airline'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'rodjek/vim-puppet'
+Plugin 'http://github.com/morhetz/gruvbox'
+Plugin 'http://github.com/vim-airline/vim-airline'
+Plugin 'http://github.com/airblade/vim-gitgutter'
+Plugin 'http://github.com/vim-syntastic/syntastic'
+Plugin 'http://github.com/rodjek/vim-puppet'
 
 " This plugin is very nice, but it has a huge bug (at least on Windows 10)!
 " See https://github.com/prettier/vim-prettier/issues/214
