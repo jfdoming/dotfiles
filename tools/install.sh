@@ -113,19 +113,19 @@ else
     fi
 
     # ...and plugins...
-    if [ -d "${zsh_custom:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+    if [ -d "${zsh_custom:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
         echo "zsh-autosuggestions already installed, skipping..."
     else
-        git clone "$PROTOCOL://github.com/zsh-users/zsh-autosuggestions" "${zsh_custom:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+        git clone "$PROTOCOL://github.com/zsh-users/zsh-autosuggestions" "${zsh_custom:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
     fi
-    if [ -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
+    if [ -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
         echo "zsh-syntax-highlighting already installed, skipping..."
     else
-        git clone "$PROTOCOL://github.com/zsh-users/zsh-syntax-highlighting.git" "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+        git clone "$PROTOCOL://github.com/zsh-users/zsh-syntax-highlighting.git" "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
     fi
 
     # ...and themes.
-    if [ -d "${zsh_custom:-~/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
+    if [ -d "${zsh_custom:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
         echo "powerlevel10k already installed, skipping..."
     else
         git clone --depth=1 "$PROTOCOL://github.com/romkatv/powerlevel10k.git" "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
