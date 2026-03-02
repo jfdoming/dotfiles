@@ -275,11 +275,23 @@ vnt() {
     git ls-files --others --directory
 }
 
+v_main_branch() {
+    $VCS branch | grep -m1 -oE "(master|main|develop|trunk)"
+}
+
+vfm() {
+    FETCH_BRANCH="$1"
+    if [ -z "$FETCH_BRANCH" ]; then
+        FETCH_BRANCH="$(v_main_branch)"
+    fi
+    $VCS fetch origin "$FETCH_BRANCH:$FETCH_BRANCH"
+}
+
 # Requires git v2.36
 vbb() {
     BRANCH_BASE="$1"
     if [ -z "$BRANCH_BASE" ]; then
-        BRANCH_BASE="main"
+        BRANCH_BASE="$(v_main_branch)"
     fi
     git rev-parse "$(git rev-list --exclude-first-parent-only ^$BRANCH_BASE "$(git branch --show-current)"| tail -1)^"
 }
