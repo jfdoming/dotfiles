@@ -310,6 +310,14 @@ vdn() {
     $VCS diff --color "$base_ref" "$ref" "$@"
 }
 
+vlb() {
+  git log --oneline --graph --decorate --color=always | \
+    fzf --ansi --no-preview --reverse \
+    --bind 'j:down,k:up' \
+    --bind 'q:abort' \
+    --bind 'enter:execute(hash=$(echo {} | grep -o "[a-f0-9]\{7,\}" | head -1); git diff --color=always $hash^..$hash | less -R)'
+}
+
 sync-commit() {
     if [ -z "$1" ]; then
         echo "Path to other repo is required" >&2
@@ -392,7 +400,7 @@ _termopen() {
     fi
     if [ -d "$query_path" ]; then
         if [ "$should_cd" -eq 1 ]; then
-            echo "cd to $path"
+            echo "cd to $query_path"
             cd "$query_path"
             query_path="."
         fi
