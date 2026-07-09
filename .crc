@@ -365,7 +365,7 @@ dx() {
 alias dc="docker-compose"
 alias dcu="dc up"
 
-alias minicodex="codex --model gpt-5.4-mini --config model_reasoning_effort='\"low\"' --yolo"
+alias minicodex="codex --model gpt-5.4-mini --config model_reasoning_effort='\"medium\"' --yolo"
 
 
 # Overwritten on Windows platforms
