@@ -11,3 +11,6 @@ fi
 
 # Configure SSH agent for saving credentials
 eval "$(ssh-agent -s)" >/dev/null
+
+# Make git show in statusline if default                                        
+source /usr/lib/git-core/git-sh-prompt
