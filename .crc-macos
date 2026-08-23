@@ -72,3 +72,5 @@ export SSH_AUTH_SOCK="$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAg
 if [ -z "$LANG" ]; then
     export LANG="$(defaults read -g AppleLocale).UTF-8"
 fi
+
+[[ "$-" == *i* ]] && printf 'P$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "zsh", "uname": "Darwin" }}\'
