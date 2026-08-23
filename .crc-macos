@@ -65,3 +65,6 @@ dotfiles() {
     GIT="$BREW_PREFIX/bin/git"
     $GIT --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
 }
+
+# Enable Secretive for secure enclave SSH keys.
+export SSH_AUTH_SOCK="$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
