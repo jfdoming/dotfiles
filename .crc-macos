@@ -68,3 +68,7 @@ dotfiles() {
 
 # Enable Secretive for secure enclave SSH keys.
 export SSH_AUTH_SOCK="$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
+
+if [ -z "$LANG" ]; then
+    export LANG="$(defaults read -g AppleLocale).UTF-8"
+fi
