@@ -234,7 +234,7 @@ vbr() {
     fi
 
     # https://medium.com/@kcmueller/delete-local-git-branches-that-were-deleted-on-remote-repository-b596b71b530c
-    branches="$(vb -vv 2> /dev/null | grep ': gone]' | grep -v '\*' | awk '{ print $1; }')"
+    branches="$(vb -vv 2> /dev/null | grep ': gone]' | grep -v '[*+]' | awk '{ print $1; }')"
     if [ -z "$branches" ]; then
         echo "No branches with a missing upstream."
     else
