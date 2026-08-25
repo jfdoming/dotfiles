@@ -15,12 +15,23 @@ local initiallyFocusedWindow = hs.window.focusedWindow()
 local lastFocusedWindowID =
     initiallyFocusedWindow and initiallyFocusedWindow:id() or nil
 
-local maxFocusableWindowLayer = 10
+local unverifiedWindowLayerLimit = 25
 
 local function getWindowUnderMouse()
     local pos = hs.mouse.absolutePosition()
     local windowList = hs.window.list(false)
     local frontmostRegularWindowByPID = {}
+    local hitTestPID = nil
+    local didHitTest = false
+
+    local function accessibilityConfirmsOwner(ownerPID)
+        if not didHitTest then
+            local element = hs.axuielement.systemElementAtPosition(pos)
+            hitTestPID = element and element:pid() or nil
+            didHitTest = true
+        end
+        return ownerPID and ownerPID == hitTestPID
+    end
 
     -- Window Server reports the actual on-screen windows, unlike Accessibility,
     -- which can expose inactive tabs as overlapping windows. Remember each
@@ -37,9 +48,12 @@ local function getWindowUnderMouse()
     end
 
     -- The list is ordered front to back, so the first eligible rectangle that
-    -- contains the pointer is the visible target. Modest positive layers cover
-    -- utility and quick-terminal panels; very high layers are typically large,
-    -- partly transparent system overlays and are intentionally ignored.
+    -- contains the pointer is the visible target. Positive layers through 25
+    -- cover utility panels and menu-bar popups such as Burnbar, even when they
+    -- expose no Accessibility window. Higher layers are accepted only when
+    -- Accessibility independently confirms their owner at the exact pointer
+    -- position; this admits real MeetingBar-style popups without treating the
+    -- transparent portion of a large overlay as interactive.
     for _, windowInfo in ipairs(windowList) do
         local bounds = windowInfo.kCGWindowBounds
         local windowLayer = windowInfo.kCGWindowLayer or 0
@@ -48,9 +62,12 @@ local function getWindowUnderMouse()
             pos.x >= bounds.X and pos.x <= bounds.X + bounds.Width and
             pos.y >= bounds.Y and pos.y <= bounds.Y + bounds.Height
 
-        if isUnderMouse and windowLayer >= 0 and
-            windowLayer <= maxFocusableWindowLayer then
-            local ownerPID = windowInfo.kCGWindowOwnerPID
+        local ownerPID = windowInfo.kCGWindowOwnerPID
+        local isInteractiveLayer = windowLayer >= 0 and
+            (windowLayer <= unverifiedWindowLayerLimit or
+                (isUnderMouse and accessibilityConfirmsOwner(ownerPID)))
+
+        if isUnderMouse and isInteractiveLayer then
             return {
                 id = windowInfo.kCGWindowNumber,
                 layer = windowLayer,
