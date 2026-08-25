@@ -44,7 +44,7 @@ calc() {
 export GPG_TTY=$TTY
 
 # Attempt to locate the diff-highlight program generically.
-export DIFF_HIGHLIGHT="$(brew list git | grep diff-highlight/diff-highlight\$)"
+export DIFF_HIGHLIGHT="$(brew --prefix)/opt/git/share/git-core/contrib/diff-highlight/diff-highlight"
 
 export FZF_DEFAULT_COMMAND="fd ."
 if command -v fzf > /dev/null && command -v fd > /dev/null; then
