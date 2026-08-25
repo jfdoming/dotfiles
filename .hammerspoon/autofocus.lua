@@ -2,10 +2,15 @@ local autofocus = {}
 
 local hoverDelay = 0.1
 local pollInterval = 0.05
+local movementTolerance = 8
+local movementToleranceSquared = movementTolerance * movementTolerance
 local hoveredWindowID = nil
 local hoverStartedAt = nil
 local autofocusArmed = false
-local lastMousePosition = hs.mouse.absolutePosition()
+local movementAnchor = hs.mouse.absolutePosition()
+local lastSamplePosition = movementAnchor
+local lastObservedWindowID = nil
+local hasObservedWindow = false
 local initiallyFocusedWindow = hs.window.focusedWindow()
 local lastFocusedWindowID =
     initiallyFocusedWindow and initiallyFocusedWindow:id() or nil
@@ -64,14 +69,26 @@ local function resetHover()
     hoverStartedAt = nil
 end
 
+local function movedBeyondTolerance(pos)
+    local dx = pos.x - movementAnchor.x
+    local dy = pos.y - movementAnchor.y
+    return dx * dx + dy * dy > movementToleranceSquared
+end
+
 autofocus.pollTimer = hs.timer.doEvery(pollInterval, function()
     local mousePosition = hs.mouse.absolutePosition()
-    local mouseMoved = mousePosition.x ~= lastMousePosition.x or
-        mousePosition.y ~= lastMousePosition.y
-    lastMousePosition = mousePosition
+    local mouseMoved = mousePosition.x ~= lastSamplePosition.x or
+        mousePosition.y ~= lastSamplePosition.y
+    lastSamplePosition = mousePosition
 
     local focusedWindow = hs.window.focusedWindow()
     local focusedWindowID = focusedWindow and focusedWindow:id() or nil
+
+    -- Resolve the visual target even while autofocus is disarmed. A tiny
+    -- movement that crosses a real window boundary is intentional movement,
+    -- regardless of the within-window jitter tolerance.
+    local target = getWindowUnderMouse()
+    local targetWindowID = target and target.id or nil
 
     -- A keyboard-driven focus change, such as Command-Tab, should win over
     -- focus-follows-mouse. Wait for deliberate mouse movement before arming it
@@ -80,14 +97,24 @@ autofocus.pollTimer = hs.timer.doEvery(pollInterval, function()
     if focusedWindowID ~= lastFocusedWindowID then
         autofocusArmed = false
         resetHover()
+        movementAnchor = mousePosition
         lastFocusedWindowID = focusedWindowID
+        lastObservedWindowID = targetWindowID
+        hasObservedWindow = true
+        return
     end
 
-    if mouseMoved then autofocusArmed = true end
-    if not autofocusArmed then return end
+    local crossedWindowBoundary = hasObservedWindow and mouseMoved and
+        targetWindowID ~= lastObservedWindowID
+    lastObservedWindowID = targetWindowID
+    hasObservedWindow = true
 
-    local target = getWindowUnderMouse()
-    local targetWindowID = target and target.id or nil
+    local significantMovement = movedBeyondTolerance(mousePosition)
+    if not autofocusArmed then
+        if not significantMovement and not crossedWindowBoundary then return end
+        autofocusArmed = true
+        movementAnchor = mousePosition
+    end
 
     -- An active application's frontmost regular window already owns keyboard
     -- focus. Refocusing it can disturb applications that represent tabs as
@@ -106,12 +133,13 @@ autofocus.pollTimer = hs.timer.doEvery(pollInterval, function()
         return
     end
 
-    -- Start (or restart) the delay after the pointer becomes stationary, not
-    -- merely after it first enters the window. This avoids focusing windows
-    -- that the pointer is only crossing on its way to the intended target.
-    if targetWindowID ~= hoveredWindowID or mouseMoved then
+    -- Start (or restart) the delay after the pointer settles within a small
+    -- radius. Measuring from an anchor allows Magic Mouse jitter while still
+    -- treating deliberate or cumulative movement as motion.
+    if targetWindowID ~= hoveredWindowID or significantMovement then
         hoveredWindowID = targetWindowID
         hoverStartedAt = hs.timer.secondsSinceEpoch()
+        movementAnchor = mousePosition
         return
     end
 
