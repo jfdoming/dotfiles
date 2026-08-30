@@ -53,7 +53,9 @@ local function getWindowUnderMouse()
     -- expose no Accessibility window. Higher layers are accepted only when
     -- Accessibility independently confirms their owner at the exact pointer
     -- position; this admits real MeetingBar-style popups without treating the
-    -- transparent portion of a large overlay as interactive.
+    -- transparent portion of a large overlay as interactive. Notification
+    -- Center also needs confirmation because its banners create a mostly
+    -- transparent screen-sized surface at a lower layer.
     for _, windowInfo in ipairs(windowList) do
         local bounds = windowInfo.kCGWindowBounds
         local windowLayer = windowInfo.kCGWindowLayer or 0
@@ -63,8 +65,11 @@ local function getWindowUnderMouse()
             pos.y >= bounds.Y and pos.y <= bounds.Y + bounds.Height
 
         local ownerPID = windowInfo.kCGWindowOwnerPID
+        local isNotificationCenter =
+            windowInfo.kCGWindowOwnerName == "Notification Center"
         local isInteractiveLayer = windowLayer >= 0 and
-            (windowLayer <= unverifiedWindowLayerLimit or
+            ((windowLayer <= unverifiedWindowLayerLimit and
+                not isNotificationCenter) or
                 (isUnderMouse and accessibilityConfirmsOwner(ownerPID)))
 
         if isUnderMouse and isInteractiveLayer then
@@ -72,6 +77,7 @@ local function getWindowUnderMouse()
                 id = windowInfo.kCGWindowNumber,
                 layer = windowLayer,
                 ownerPID = ownerPID,
+                allowsAutofocus = not isNotificationCenter,
                 frontmostRegularID =
                     frontmostRegularWindowByPID[ownerPID],
             }
@@ -121,10 +127,22 @@ autofocus.pollTimer = hs.timer.doEvery(pollInterval, function()
         return
     end
 
-    local crossedWindowBoundary = hasObservedWindow and mouseMoved and
+    local targetChanged = hasObservedWindow and
         targetWindowID ~= lastObservedWindowID
+    local targetChangedWithoutMouseMovement = targetChanged and not mouseMoved
+    local crossedWindowBoundary = targetChanged and mouseMoved
     lastObservedWindowID = targetWindowID
     hasObservedWindow = true
+
+    -- A window appearing or disappearing beneath a stationary pointer is not a
+    -- hover gesture. In particular, notification banners should not steal focus
+    -- just because they temporarily cover the window under the pointer.
+    if targetChangedWithoutMouseMovement then
+        autofocusArmed = false
+        resetHover()
+        movementAnchor = mousePosition
+        return
+    end
 
     local significantMovement = movedBeyondTolerance(mousePosition)
     if not autofocusArmed then
@@ -146,6 +164,13 @@ autofocus.pollTimer = hs.timer.doEvery(pollInterval, function()
     end
 
     if not targetWindowID or targetWindowID == focusedWindowID then
+        resetHover()
+        return
+    end
+
+    -- Notification banners should shield whatever is behind them without
+    -- taking keyboard focus away from the application the user is working in.
+    if not target.allowsAutofocus then
         resetHover()
         return
     end
