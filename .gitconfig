@@ -19,9 +19,9 @@
     smudge = cat
     required = true
 
-# Rewrite https requests as SSH requests for GitHub URLs.
+# Rewrite https requests as SSH requests for pushes to GitHub URLs.
 [url "git@github.com:"]
-    insteadOf = https://github.com/
+    pushInsteadOf = https://github.com/
 
 # Use `main` as the default branch instead of `master`.
 [init]
